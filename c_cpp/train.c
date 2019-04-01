@@ -1,17 +1,27 @@
 #include "hmm.h"
+#include "utils.h"
+#include <stdlib.h>
 #include <math.h>
 
-int main()
+int main( int argc, char** argv )
 {
-/*
-	HMM hmms[5];
+  if( argc != 5 ){
+    printf( "argument count not correct.\n" );
+    printf( "usage: ./train iteration model_init.txt seq_model_01.txt model_01.txt\n" );
+    exit(1);
+  }
+  Parameter_train pr;
+	HMM       hmms[5];
+  load_params( &pr, argv );
 	load_models( "modellist.txt", hmms, 5);
-	dump_models( hmms, 5);
-*/
-	HMM hmm_initial;
-	loadHMM( &hmm_initial, "model_init.txt" );
-	dumpHMM( stderr, &hmm_initial );
 
-	printf("%f\n", log(1.5) ); // make sure the math library is included
+  /* main code */
+
+
+  /* main code end */
+
+
+  discard( &pr, PARAMETER_TRAIN );
+	dump_models( hmms, 5);
 	return 0;
 }
