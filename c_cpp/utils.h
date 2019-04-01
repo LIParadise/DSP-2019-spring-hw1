@@ -22,23 +22,49 @@ typedef enum{
   PARAMETER_TEST
 } Dtor_type;
 
-static void load_params( Parameter_train* pr_ptr, char** argv ){
+static void load_params( void* ptr,
+    char** argv,
+    Dtor_type type ){
 
-  pr_ptr -> it_cnt     = atoi( argv[1] );
+  if( type == PARAMETER_TRAIN ){
 
-  pr_ptr -> model_init = malloc( strlen( argv[2] ) + 1 );
-  memcpy( pr_ptr -> model_init, argv[2], strlen(argv[2]) );
-  pr_ptr -> model_init [strlen(argv[2])] = '\0';
-  
-  pr_ptr -> model_train = malloc( strlen( argv[3] ) + 1 );
-  memcpy( pr_ptr -> model_train, argv[3], strlen(argv[3]) );
-  pr_ptr -> model_train [strlen(argv[3])] = '\0';
+    Parameter_train* pr_ptr = (Parameter_train*)ptr;
 
-  pr_ptr -> model_OP = malloc( strlen( argv[4] ) + 1 );
-  memcpy( pr_ptr -> model_OP, argv[4], strlen(argv[4]) );
-  pr_ptr -> model_OP [strlen(argv[4])] = '\0';
+    pr_ptr -> it_cnt     = atoi( argv[1] );
+
+    pr_ptr -> model_init = malloc( strlen( argv[2] ) + 1 );
+    memcpy( pr_ptr -> model_init, argv[2], strlen(argv[2]) );
+    pr_ptr -> model_init [strlen(argv[2])] = '\0';
+
+    pr_ptr -> model_train = malloc( strlen( argv[3] ) + 1 );
+    memcpy( pr_ptr -> model_train, argv[3], strlen(argv[3]) );
+    pr_ptr -> model_train [strlen(argv[3])] = '\0';
+
+    pr_ptr -> model_OP = malloc( strlen( argv[4] ) + 1 );
+    memcpy( pr_ptr -> model_OP, argv[4], strlen(argv[4]) );
+    pr_ptr -> model_OP [strlen(argv[4])] = '\0';
+
+  } else if( type == PARAMETER_TEST ){
+
+    Parameter_test* pr_ptr = (Parameter_test*)ptr;
+
+    pr_ptr -> model_list = malloc( strlen( argv[1] ) + 1 );
+    memcpy( pr_ptr -> model_list, argv[1], strlen(argv[1]) );
+    pr_ptr -> model_list [strlen(argv[1])] = '\0';
+
+    pr_ptr -> test_data = malloc( strlen( argv[2] ) + 1 );
+    memcpy( pr_ptr -> test_data, argv[2], strlen(argv[2]) );
+    pr_ptr -> test_data [strlen(argv[2])] = '\0';
+
+    pr_ptr -> results = malloc( strlen( argv[3] ) + 1 );
+    memcpy( pr_ptr -> results, argv[3], strlen(argv[3]) );
+    pr_ptr -> results [strlen(argv[3])] = '\0';
+
+  }
 
 }
+
+
 
 static void discard( void* ptr , Dtor_type type){
   if( type == PARAMETER_TRAIN ){

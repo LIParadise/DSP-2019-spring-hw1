@@ -46,7 +46,7 @@ set stal=2
 tabnew
 tabnew
 tabrewind
-edit train.c
+edit utils.h
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -103,8 +103,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'c'
-setlocal filetype=c
+if &filetype != 'cpp'
+setlocal filetype=cpp
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -169,8 +169,8 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'c'
-setlocal syntax=c
+if &syntax != 'cpp'
+setlocal syntax=cpp
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -189,12 +189,24 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 15 - ((11 * winheight(0) + 9) / 19)
+72,81fold
+69,81fold
+65,80fold
+66,81fold
+66
+normal! zo
+65
+normal! zo
+69
+normal! zo
+72
+normal! zo
+let s:l = 5 - ((0 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-15
-normal! 035|
+5
+normal! 0
 wincmd w
 argglobal
 if bufexists("hmm.h") | buffer hmm.h | else | edit hmm.h | endif
@@ -447,37 +459,68 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-22,34fold
-21,36fold
-21,36fold
-39,42fold
-38,42fold
-21,42fold
-21,43fold
-21
+26,27fold
+28,29fold
+64,65fold
+28,65fold
+26,65fold
+26,65fold
+72,81fold
+71,81fold
+70,81fold
+70,81fold
+65,80fold
+65,81fold
+65,81fold
+65,81fold
+65,81fold
+65,81fold
+66,81fold
+26
 normal! zo
-21
+26
 normal! zo
-21
+26
 normal! zo
-21
+28
 normal! zo
-22
+28
 normal! zo
-21
+64
+normal! zo
+26
 normal! zc
-38
+66
 normal! zo
-39
+65
 normal! zo
-let s:l = 21 - ((9 * winheight(0) + 19) / 39)
+65
+normal! zo
+65
+normal! zo
+65
+normal! zo
+65
+normal! zo
+65
+normal! zo
+70
+normal! zo
+70
+normal! zo
+71
+normal! zo
+72
+normal! zo
+70
+normal! zc
+let s:l = 9 - ((8 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
+9
 normal! 0
 wincmd w
-3wincmd w
 exe '1resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe '2resize ' . ((&lines * 19 + 21) / 42)
@@ -620,12 +663,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 114 - ((19 * winheight(0) + 19) / 39)
+let s:l = 120 - ((31 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-114
-normal! 013|
+120
+normal! 05|
 wincmd w
 argglobal
 if bufexists("train.c") | buffer train.c | else | edit train.c | endif
@@ -749,13 +792,14 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 18 - ((17 * winheight(0) + 19) / 39)
+let s:l = 31 - ((21 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-18
-normal! 0
+31
+normal! 015|
 wincmd w
+2wincmd w
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 tabnext
@@ -895,14 +939,14 @@ exe s:l
 normal! zt
 11
 normal! 06|
-tabnext 1
+tabnext 2
 set stal=1
 badd +12 test_hmm.c
 badd +53 hmm.h
 badd +3 hmm.c
 badd +5 hmm.cc
 badd +35 /mnt/data/Document/DSnP/DSnP_hw5/src/main//main.cpp
-badd +21 train.c
+badd +15 train.c
 badd +0 utils.h
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
@@ -915,6 +959,7 @@ if file_readable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &so = s:so_save | let &siso = s:siso_save
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :
