@@ -1,0 +1,24 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+HMM	hmm.h	/^} HMM;$/;"	t	typeref:struct:__anon1
+HMM_HEADER_	hmm.h	2;"	d
+MAX_LINE	hmm.h	22;"	d
+MAX_OBSERV	hmm.h	14;"	d
+MAX_SEQ	hmm.h	18;"	d
+MAX_STATE	hmm.h	10;"	d
+dumpHMM	hmm.h	/^static void dumpHMM( FILE *fp, HMM *hmm )$/;"	f
+dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
+initial	hmm.h	/^   double initial[MAX_STATE];			\/\/initial prob.$/;"	m	struct:__anon1
+loadHMM	hmm.h	/^static void loadHMM( HMM *hmm, const char *filename )$/;"	f
+load_models	hmm.h	/^static int load_models( const char *listname, HMM *hmm, const int max_num )$/;"	f
+main	test_hmm.c	/^int main()$/;"	f
+model_name	hmm.h	/^   char *model_name;$/;"	m	struct:__anon1
+observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct:__anon1
+observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
+open_or_die	hmm.h	/^static FILE *open_or_die( const char *filename, const char *ht )$/;"	f
+state_num	hmm.h	/^   int state_num;					\/\/number of state$/;"	m	struct:__anon1
+transition	hmm.h	/^   double transition[MAX_STATE][MAX_STATE];	\/\/transition prob.$/;"	m	struct:__anon1
