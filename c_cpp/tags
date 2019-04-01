@@ -15,7 +15,7 @@ dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
 initial	hmm.h	/^   double initial[MAX_STATE];			\/\/initial prob.$/;"	m	struct:__anon1
 loadHMM	hmm.h	/^static void loadHMM( HMM *hmm, const char *filename )$/;"	f
 load_models	hmm.h	/^static int load_models( const char *listname, HMM *hmm, const int max_num )$/;"	f
-main	test_hmm.c	/^int main()$/;"	f
+main	test_hmm.cc	/^int main()$/;"	f
 model_name	hmm.h	/^   char *model_name;$/;"	m	struct:__anon1
 observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct:__anon1
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1

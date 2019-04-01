@@ -1,6 +1,7 @@
 .PHONY: all clean
 
-CFLAGS+=
+CXX=clang++
+CFLAGS+=-O2 --std=c++11 -Wall
 LDFLAGS+=-lm     # link to math library
 
 TARGET=test_hmm
@@ -12,4 +13,4 @@ clean: ctags
 	$(RM) -f $(TARGET)   # type make clean to remove the compiled file
 
 ctags:
-	ctags --language-force=c --tag-relative=yes -f ./tags $(wildcard *.c) $(wildcard *.h) $(wildcard *.cc) $(wildcard *.cpp)
+	@ctags --language-force=c --tag-relative=yes -f ./tags $(wildcard *.c) $(wildcard *.h) $(wildcard *.cc) $(wildcard *.cpp)
