@@ -191,9 +191,9 @@ setlocal wrapmargin=0
 silent! normal! zE
 72,81fold
 69,81fold
-65,80fold
-66,81fold
-66
+65,81fold
+65,81fold
+65
 normal! zo
 65
 normal! zo
@@ -201,11 +201,11 @@ normal! zo
 normal! zo
 72
 normal! zo
-let s:l = 5 - ((0 * winheight(0) + 9) / 19)
+let s:l = 9 - ((8 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
+9
 normal! 0
 wincmd w
 argglobal
@@ -381,7 +381,7 @@ setlocal foldcolumn=0
 setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
-setlocal foldlevel=0
+setlocal foldlevel=1
 setlocal foldmarker={{{,}}}
 setlocal foldmethod=manual
 setlocal foldminlines=1
@@ -463,24 +463,48 @@ silent! normal! zE
 28,29fold
 64,65fold
 28,65fold
+28,65fold
+28,65fold
+28,65fold
 26,65fold
 26,65fold
 72,81fold
 71,81fold
 70,81fold
 70,81fold
-65,80fold
-65,81fold
-65,81fold
-65,81fold
-65,81fold
-65,81fold
-66,81fold
+70,81fold
+26,81fold
+26,81fold
+26,81fold
+26,81fold
+26,81fold
+26,81fold
+26,81fold
 26
 normal! zo
 26
 normal! zo
 26
+normal! zo
+26
+normal! zo
+26
+normal! zo
+26
+normal! zo
+26
+normal! zo
+26
+normal! zo
+26
+normal! zo
+26
+normal! zo
+28
+normal! zo
+28
+normal! zo
+28
 normal! zo
 28
 normal! zo
@@ -488,21 +512,9 @@ normal! zo
 normal! zo
 64
 normal! zo
-26
+28
 normal! zc
-66
-normal! zo
-65
-normal! zo
-65
-normal! zo
-65
-normal! zo
-65
-normal! zo
-65
-normal! zo
-65
+70
 normal! zo
 70
 normal! zo
@@ -514,13 +526,14 @@ normal! zo
 normal! zo
 70
 normal! zc
-let s:l = 9 - ((8 * winheight(0) + 19) / 39)
+let s:l = 68 - ((41 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-9
+68
 normal! 0
 wincmd w
+3wincmd w
 exe '1resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe '2resize ' . ((&lines * 19 + 21) / 42)
@@ -663,11 +676,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 120 - ((31 * winheight(0) + 19) / 39)
+let s:l = 39 - ((38 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-120
+39
 normal! 05|
 wincmd w
 argglobal
@@ -792,14 +805,13 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 31 - ((21 * winheight(0) + 19) / 39)
+let s:l = 29 - ((19 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-31
+29
 normal! 015|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
 exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 tabnext
@@ -939,15 +951,15 @@ exe s:l
 normal! zt
 11
 normal! 06|
-tabnext 2
+tabnext 1
 set stal=1
+badd +1 utils.h
 badd +12 test_hmm.c
 badd +53 hmm.h
+badd +0 train.c
 badd +3 hmm.c
 badd +5 hmm.cc
 badd +35 /mnt/data/Document/DSnP/DSnP_hw5/src/main//main.cpp
-badd +15 train.c
-badd +0 utils.h
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

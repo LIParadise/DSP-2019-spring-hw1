@@ -6,9 +6,13 @@
 
 typedef struct{
   int     it_cnt;      // iteration count
+  int     line_cnt;    // total lines in the "model_train" file
+
   char*   model_init;  // init model filename
   char*   model_train; // train data filename
   char*   model_OP;    // trained model name
+
+  char**  model_data;  // data, i.e. many lines of char
 } Parameter_train;
 
 typedef struct{
@@ -20,11 +24,42 @@ typedef struct{
 typedef enum{
   PARAMETER_TRAIN = 0,
   PARAMETER_TEST
-} Dtor_type;
+} Pram_type;
+
+static void prep_params(
+    void* ptr, 
+    Pram_type type ){
+  if( type == PARAMETER_TRAIN ){
+    
+    // get line_cnt;
+    Parameter_train* pr_ptr = (Parameter_train*)ptr;
+    FILE* fp  = open_or_die( pr_ptr -> model_train );
+    char  buf   [MAX_LINE];
+    pr_ptr -> line_cnt = 0;
+    while (fgets(buf, MAX_LINE, fp) != NULL)
+    {
+      pr_ptr -> line_cnt++;
+    }
+
+    // get the data;
+    pr_ptr -> model_data = (char**)
+      malloc(sizeof(char*)*(pr_ptr -> line_cnt) );
+    for( int i = 0; i < pr_ptr -> line_cnt; ++i ){
+      pr_ptr -> model_data[i] = (char*)calloc( MAX_LINE );
+    }
+    rewind(fp);
+    for( int i = 0; i < pr_ptr->line_cnt; ++i ){
+      fgets(pr_ptr->model_data[i], MAX_LINE, fp) ;
+    }
+
+    fclose( fp );
+
+  }
+}
 
 static void load_params( void* ptr,
     char** argv,
-    Dtor_type type ){
+    Pram_type type ){
 
   if( type == PARAMETER_TRAIN ){
 
@@ -66,17 +101,31 @@ static void load_params( void* ptr,
 
 
 
-static void discard( void* ptr , Dtor_type type){
+static void discard( void* ptr , Pram_type type){
   if( type == PARAMETER_TRAIN ){
     Parameter_train* pr_ptr = (Parameter_train*)ptr;
     free( pr_ptr -> model_init );
     free( pr_ptr -> model_train );
     free( pr_ptr -> model_OP );
+    for( int i = 0; i < pr_ptr -> line_cnt ; ++i ){
+      free( pr_ptr -> model_data[i] );
+    }
+    free( pr_ptr -> model_data );
+    
+    pr_ptr -> model_init  = NULL;
+    pr_ptr -> model_train = NULL;
+    pr_ptr -> model_OP    = NULL;
+    pr_ptr -> model_data  = NULL;
+
   }else if( type == PARAMETER_TEST ){
     Parameter_test* pr_ptr = (Parameter_test*)ptr;
     free( pr_ptr -> model_list );
     free( pr_ptr -> test_data );
     free( pr_ptr -> results );
+
+    pr_ptr -> model_list  = NULL;
+    pr_ptr -> test_data   = NULL;
+    pr_ptr -> results     = NULL;
   }else {}
 }
 
