@@ -15,18 +15,18 @@ int main( int argc, char** argv )
   }
 
   /* basic parameter storage */
-  Parameter_train pr;
+  Parameter_train train;
 	HMM             hmm;
   Greek_letters   gr;
   Data_wrapper    dw;
   pthread_t       thrd_1, thrd_2;
-  dw.pr_ptr       = &pr;
+  dw.train_ptr    = &train;
   dw.gr_ptr       = &gr;
   dw.hmm_ptr      = &hmm;
-  load_params( &pr, argv, PARAMETER_TRAIN );
-  prep_params( &pr, &hmm, PARAMETER_TRAIN );
-  init_greek ( &gr );
-  loadHMM( &hmm, pr.model_init );
+  load_params( &train, argv, PARAMETER_TRAIN );
+  loadHMM    ( &hmm, train.model_init );
+  prep_params( &dw, PARAMETER_TRAIN );
+  init_greek ( &dw );
 
   /* main code */
 

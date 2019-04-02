@@ -7,12 +7,16 @@
 typedef struct{
   int     it_cnt;      // iteration count
   int     line_cnt;    // total lines in the "model_train" file
+  int     stt_cnt;     // how many # of hidden states in the HMM.
+  int     emt_cnt;     // how many # of possible emissions.
+  //                      (since it's HMM).
 
   char*   model_init;  // init model filename
   char*   model_train; // train data filename
   char*   model_OP;    // trained model name
 
   char**  model_data;  // data, i.e. many lines of char
+
 } Parameter_train;
 
 typedef struct{
@@ -27,13 +31,19 @@ typedef enum{
 } Pram_type;
 
 static void prep_params(
-    void* ptr,
-    HMM*  hmm_ptr,
+    void* ptr, // pointer of type Data_wrapper
     Pram_type type ){
+
   if( type == PARAMETER_TRAIN ){
-    
+
+    Parameter_train* pr_ptr = (Parameter_train*)ptr -> train_ptr;
+
+    // get (# of states) and (# of possible emissions from a state)
+    // shall be called only after HMM is loaded.
+    pr_ptr -> stt_cnt = ptr -> hmm_ptr -> state_num;
+    pr_ptr -> emt_cnt = ptr -> hmm_ptr -> observ_num;
+
     // get line_cnt;
-    Parameter_train* pr_ptr = (Parameter_train*)ptr;
     FILE* fp  = open_or_die( pr_ptr -> model_train , "r" );
     char  buf   [MAX_LINE];
     pr_ptr -> line_cnt = 0;
@@ -58,7 +68,8 @@ static void prep_params(
   }
 }
 
-static void load_params( void* ptr,
+static void load_params( 
+    void* ptr, // pointer of type Parameter_train or Parameter_test
     char** argv,
     Pram_type type ){
 
@@ -112,7 +123,7 @@ static void discard( void* ptr , Pram_type type){
       free( pr_ptr -> model_data[i] );
     }
     free( pr_ptr -> model_data );
-    
+
     pr_ptr -> model_init  = NULL;
     pr_ptr -> model_train = NULL;
     pr_ptr -> model_OP    = NULL;

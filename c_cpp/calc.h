@@ -20,52 +20,86 @@
 #endif
 
 typedef struct{
-  double alpha         [MAX_STATE][MAX_LINE];
-  double beta          [MAX_STATE][MAX_LINE];
-  double gamma         [MAX_STATE][MAX_LINE];
-  double epsilon       [MAX_STATE][MAX_LINE];
+  double ** alpha   ;
+  double ** beta    ;
+  double ** gamma   ;
+  double ** epsilon ;
 } Greek_letters;
 
 typedef struct{
-  Parameter_train* pr_ptr;
+  Parameter_train* train_ptr;
+  Parameter_train* test_ptr;
   Greek_letters*   gr_ptr;
   HMM*             hmm_ptr;
   int              cur_line_idx;  // current line index
 } Data_wrapper;
 
-static void init_greek ( Greek_letters* gr_ptr ){
-  memset(gr_ptr -> alpha  ,'\0', MAX_STATE*MAX_LINE*sizeof(double));
-  memset(gr_ptr -> beta   ,'\0', MAX_STATE*MAX_LINE*sizeof(double));
-  memset(gr_ptr -> gamma  ,'\0', MAX_STATE*MAX_LINE*sizeof(double));
-  memset(gr_ptr -> epsilon,'\0', MAX_STATE*MAX_LINE*sizeof(double));
+static void init_greek ( Data_wrapper* dw_ptr ){
+  int stt_cnt            = dw_ptr -> train_ptr -> stt_cnt;
+  int emt_cnt            = dw_ptr -> train_ptr -> emt_cnt;
+  Greek_letters* gr_ptr  = dw_ptr -> gr_ptr;
+
+  gr_ptr -> alpha   = (double**)malloc( sizeof( double*) * stt_cnt );
+  gr_ptr -> beta    = (double**)malloc( sizeof( double*) * stt_cnt );
+  gr_ptr -> gamma   = (double**)malloc( sizeof( double*) * stt_cnt );
+  gr_ptr -> epsilon = (double**)malloc( sizeof( double*) * stt_cnt );
+
+  for( int i = 0; i < stt_cnt; ++i ){
+    gr_ptr -> alpha   [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
+  }
+  for( int i = 0; i < stt_cnt; ++i ){
+    gr_ptr -> beta    [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
+  }
+  for( int i = 0; i < stt_cnt; ++i ){
+    gr_ptr -> gamma   [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
+  }
+  for( int i = 0; i < stt_cnt; ++i ){
+    gr_ptr -> epsilon [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
+  }
 }
 
 static void fill_alpha ( Data_wrapper* dw_ptr){
 
-  Parameter_train * pr_ptr   = dw_ptr -> pr_ptr;
+  Parameter_train * pr_ptr   = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr   = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr  = dw_ptr -> hmm_ptr;
   int               line_cnt = dw_ptr -> cur_line_idx;
+  int               stt_cnt  = dw_ptr -> train_ptr -> stt_cnt;
+  int               emt_cnt  = dw_ptr -> train_ptr -> emt_cnt;
 
-  memset(gr_ptr->alpha,'\0',MAX_STATE*MAX_LINE*sizeof(double));
+  // reset the matrix
+  for( int i = 0; i < stt_cnt; ++i ){
+    memset( gr_ptr -> alpha[i], '\0', MAX_LINE);
+  }
 
-  // first col. vector of alpha;
-  for( int state_idx = 0; state_idx < MAX_STATE; ++state_idx ){
+  // first col. vector
+  for( int state_idx = 0; state_idx < stt_cnt; ++state_idx ){
     gr_ptr -> alpha[state_idx][0] = 
       (hmm_ptr -> initial[state_idx]) * ( hmm_ptr -> 
           observation[(pr_ptr->model_data[line_cnt][0]-'A')][state_idx] );
   }
 
+  // recursive col. vector
   for( int observ_idx = 1; 
-      pr_ptr -> model_data[line_cnt][observ_idx] != '\0';
+      (pr_ptr -> model_data[line_cnt][observ_idx] != '\0')&&
+      (observ_idx < MAX_LINE);
       ++observ_idx ){
-    for( int state_idx = 0; state_idx < MAX_STATE; ++state_idx ){
+
+
+    for( int state_idx_1 = 0; state_idx_1 < stt_cnt; ++state_idx_1 ){
       /*TODO */
-      // gr_ptr -> alpha[state_idx][observ_idx]
-
+      gr_ptr -> alpha[state_idx_1][observ_idx] = 0.0;
+      for( int state_idx_2 = 0; state_idx_2 < stt_cnt; ++state_idx_2 ){
+        gr_ptr -> alpha[state_idx_1][observ_idx] +=
+          gr_ptr  -> alpha[state_idx_2][observ_idx-1] *
+          hmm_ptr -> transition[ state_idx_2 ][ state_idx_1 ];
+      }
+      gr_ptr -> alpha[state_idx_1][observ_idx] *= 
+        hmm_ptr -> observation
+        [pr_ptr->model_data[line_cnt][observ_idx]-'A'][state_idx_1];
     }
-  }
 
+  }
 }
 
 
