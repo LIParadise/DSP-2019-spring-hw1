@@ -30,7 +30,7 @@ int main( int argc, char** argv )
 
   /* main code */
 
-  for( int i = 0; i < pr.line_cnt; ++i ){
+  for( int i = 0; i < train.line_cnt; ++i ){
     dw.cur_line_idx = i;
     pthread_create( &thrd_1  , NULL, fill_alpha  , &dw );
     pthread_create( &thrd_2  , NULL, fill_beta   , &dw );
@@ -47,9 +47,9 @@ int main( int argc, char** argv )
 
 
   /* output */
-  discard( &pr, PARAMETER_TRAIN );
+  discard( &train, PARAMETER_TRAIN );
 	dump_models( &hmm, 1 );
-  FILE* fp = open_or_die( pr.model_OP , "w");
+  FILE* fp = open_or_die( train.model_OP , "w");
   dumpHMM( fp, &hmm );
   fclose( fp );
 

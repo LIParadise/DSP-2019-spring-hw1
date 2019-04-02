@@ -4,6 +4,13 @@
 #include <string.h>
 #include <stdlib.h>
 
+typedef struct Greek_letters{
+  double ** alpha   ;
+  double ** beta    ;
+  double ** gamma   ;
+  double ** epsilon ;
+} Greek_letters;
+
 typedef struct{
   int     it_cnt;      // iteration count
   int     line_cnt;    // total lines in the "model_train" file
@@ -25,6 +32,14 @@ typedef struct{
   char*   results;    // results
 } Parameter_test;
 
+typedef struct{
+  Parameter_train* train_ptr;
+  Parameter_train* test_ptr;
+  Greek_letters*   gr_ptr;
+  HMM*             hmm_ptr;
+  int              cur_line_idx;  // current line index
+} Data_wrapper;
+
 typedef enum{
   PARAMETER_TRAIN = 0,
   PARAMETER_TEST
@@ -36,12 +51,12 @@ static void prep_params(
 
   if( type == PARAMETER_TRAIN ){
 
-    Parameter_train* pr_ptr = (Parameter_train*)ptr -> train_ptr;
+    Parameter_train* pr_ptr = ((Data_wrapper*)ptr) -> train_ptr;
 
     // get (# of states) and (# of possible emissions from a state)
     // shall be called only after HMM is loaded.
-    pr_ptr -> stt_cnt = ptr -> hmm_ptr -> state_num;
-    pr_ptr -> emt_cnt = ptr -> hmm_ptr -> observ_num;
+    pr_ptr -> stt_cnt = ((Data_wrapper*)ptr) -> hmm_ptr -> state_num;
+    pr_ptr -> emt_cnt = ((Data_wrapper*)ptr) -> hmm_ptr -> observ_num;
 
     // get line_cnt;
     FILE* fp  = open_or_die( pr_ptr -> model_train , "r" );

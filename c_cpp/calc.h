@@ -1,4 +1,5 @@
 #include <string.h>
+#include "utils.h"
 
 #ifndef CALC_HEADER_
 #define CALC_HEADER_
@@ -19,24 +20,8 @@
 #	define MAX_LINE 	256
 #endif
 
-typedef struct{
-  double ** alpha   ;
-  double ** beta    ;
-  double ** gamma   ;
-  double ** epsilon ;
-} Greek_letters;
-
-typedef struct{
-  Parameter_train* train_ptr;
-  Parameter_train* test_ptr;
-  Greek_letters*   gr_ptr;
-  HMM*             hmm_ptr;
-  int              cur_line_idx;  // current line index
-} Data_wrapper;
-
 static void init_greek ( Data_wrapper* dw_ptr ){
-  int stt_cnt            = dw_ptr -> train_ptr -> stt_cnt;
-  int emt_cnt            = dw_ptr -> train_ptr -> emt_cnt;
+  int            stt_cnt = dw_ptr -> train_ptr -> stt_cnt;
   Greek_letters* gr_ptr  = dw_ptr -> gr_ptr;
 
   gr_ptr -> alpha   = (double**)malloc( sizeof( double*) * stt_cnt );
@@ -58,14 +43,17 @@ static void init_greek ( Data_wrapper* dw_ptr ){
   }
 }
 
-static void fill_alpha ( Data_wrapper* dw_ptr){
+static void* fill_alpha ( void* ptr /* (Data_wrapper*) type */ ){
 
+  // why return type is (void*)?
+  // to mute the clang warning on pthread_create.
+
+  Data_wrapper    * dw_ptr   = ((Data_wrapper*)(ptr));
   Parameter_train * pr_ptr   = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr   = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr  = dw_ptr -> hmm_ptr;
   int               line_cnt = dw_ptr -> cur_line_idx;
   int               stt_cnt  = dw_ptr -> train_ptr -> stt_cnt;
-  int               emt_cnt  = dw_ptr -> train_ptr -> emt_cnt;
 
   // reset the matrix
   for( int i = 0; i < stt_cnt; ++i ){
@@ -100,6 +88,8 @@ static void fill_alpha ( Data_wrapper* dw_ptr){
     }
 
   }
+
+  return NULL;
 }
 
 
