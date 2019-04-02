@@ -27,13 +27,14 @@ typedef enum{
 } Pram_type;
 
 static void prep_params(
-    void* ptr, 
+    void* ptr,
+    HMM*  hmm_ptr,
     Pram_type type ){
   if( type == PARAMETER_TRAIN ){
     
     // get line_cnt;
     Parameter_train* pr_ptr = (Parameter_train*)ptr;
-    FILE* fp  = open_or_die( pr_ptr -> model_train );
+    FILE* fp  = open_or_die( pr_ptr -> model_train , "r" );
     char  buf   [MAX_LINE];
     pr_ptr -> line_cnt = 0;
     while (fgets(buf, MAX_LINE, fp) != NULL)
@@ -45,7 +46,7 @@ static void prep_params(
     pr_ptr -> model_data = (char**)
       malloc(sizeof(char*)*(pr_ptr -> line_cnt) );
     for( int i = 0; i < pr_ptr -> line_cnt; ++i ){
-      pr_ptr -> model_data[i] = (char*)calloc( MAX_LINE );
+      pr_ptr -> model_data[i] = (char*)calloc( MAX_LINE, sizeof(char) );
     }
     rewind(fp);
     for( int i = 0; i < pr_ptr->line_cnt; ++i ){

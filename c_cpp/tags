@@ -4,28 +4,46 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-Dtor_type	utils.h	/^} Dtor_type;$/;"	t	typeref:enum:__anon4
+CALC_HEADER_	calc.h	4;"	d
+Data_wrapper	calc.h	/^} Data_wrapper;$/;"	t	typeref:struct:__anon6
+Greek_letters	calc.h	/^} Greek_letters;$/;"	t	typeref:struct:__anon5
 HMM	hmm.h	/^} HMM;$/;"	t	typeref:struct:__anon1
 HMM_HEADER_	hmm.h	2;"	d
+MAX_LINE	calc.h	19;"	d
 MAX_LINE	hmm.h	22;"	d
+MAX_OBSERV	calc.h	11;"	d
 MAX_OBSERV	hmm.h	14;"	d
+MAX_SEQ	calc.h	15;"	d
 MAX_SEQ	hmm.h	18;"	d
+MAX_STATE	calc.h	7;"	d
 MAX_STATE	hmm.h	10;"	d
 PARAMETER_TEST	utils.h	/^  PARAMETER_TEST$/;"	e	enum:__anon4
 PARAMETER_TRAIN	utils.h	/^  PARAMETER_TRAIN = 0,$/;"	e	enum:__anon4
 Parameter_test	utils.h	/^} Parameter_test;$/;"	t	typeref:struct:__anon3
 Parameter_train	utils.h	/^} Parameter_train;$/;"	t	typeref:struct:__anon2
+Pram_type	utils.h	/^} Pram_type;$/;"	t	typeref:enum:__anon4
 UTILS_HEADER_	utils.h	2;"	d
-discard	utils.h	/^static void discard( void* ptr , Dtor_type type){$/;"	f
+alpha	calc.h	/^  double alpha         [MAX_STATE][MAX_LINE];$/;"	m	struct:__anon5
+beta	calc.h	/^  double beta          [MAX_STATE][MAX_LINE];$/;"	m	struct:__anon5
+cur_line_idx	calc.h	/^  int              cur_line_idx;  \/\/ current line index$/;"	m	struct:__anon6
+discard	utils.h	/^static void discard( void* ptr , Pram_type type){$/;"	f
 dumpHMM	hmm.h	/^static void dumpHMM( FILE *fp, HMM *hmm )$/;"	f
 dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
+epsilon	calc.h	/^  double epsilon       [MAX_STATE][MAX_LINE];$/;"	m	struct:__anon5
+fill_alpha	calc.h	/^static void fill_alpha ( Data_wrapper* dw_ptr){$/;"	f
+gamma	calc.h	/^  double gamma         [MAX_STATE][MAX_LINE];$/;"	m	struct:__anon5
+gr_ptr	calc.h	/^  Greek_letters*   gr_ptr;$/;"	m	struct:__anon6
+hmm_ptr	calc.h	/^  HMM*             hmm_ptr;$/;"	m	struct:__anon6
+init_greek	calc.h	/^static void init_greek ( Greek_letters* gr_ptr ){$/;"	f
 initial	hmm.h	/^   double initial[MAX_STATE];			\/\/initial prob.$/;"	m	struct:__anon1
 it_cnt	utils.h	/^  int     it_cnt;      \/\/ iteration count$/;"	m	struct:__anon2
+line_cnt	utils.h	/^  int     line_cnt;    \/\/ total lines in the "model_train" file$/;"	m	struct:__anon2
 loadHMM	hmm.h	/^static void loadHMM( HMM *hmm, const char *filename )$/;"	f
 load_models	hmm.h	/^static int load_models( const char *listname, HMM *hmm, const int max_num )$/;"	f
-load_params	utils.h	/^static void load_params( Parameter_train* pr_ptr, char** argv ){$/;"	f
+load_params	utils.h	/^static void load_params( void* ptr,$/;"	f
 main	train.c	/^int main( int argc, char** argv )$/;"	f
 model_OP	utils.h	/^  char*   model_OP;    \/\/ trained model name$/;"	m	struct:__anon2
+model_data	utils.h	/^  char**  model_data;  \/\/ data, i.e. many lines of char$/;"	m	struct:__anon2
 model_init	utils.h	/^  char*   model_init;  \/\/ init model filename$/;"	m	struct:__anon2
 model_list	utils.h	/^  char*   model_list;  \/\/ list of HMMs to run Viterbi.$/;"	m	struct:__anon3
 model_name	hmm.h	/^   char *model_name;$/;"	m	struct:__anon1
@@ -33,6 +51,8 @@ model_train	utils.h	/^  char*   model_train; \/\/ train data filename$/;"	m	stru
 observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct:__anon1
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
 open_or_die	hmm.h	/^static FILE *open_or_die( const char *filename, const char *ht )$/;"	f
+pr_ptr	calc.h	/^  Parameter_train* pr_ptr;$/;"	m	struct:__anon6
+prep_params	utils.h	/^static void prep_params($/;"	f
 results	utils.h	/^  char*   results;    \/\/ results$/;"	m	struct:__anon3
 state_num	hmm.h	/^   int state_num;					\/\/number of state$/;"	m	struct:__anon1
 test_data	utils.h	/^  char*   test_data;;  \/\/ input sequence of char (39-dim MFCCs)$/;"	m	struct:__anon3

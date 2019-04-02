@@ -47,17 +47,22 @@ static void fill_alpha ( Data_wrapper* dw_ptr){
   HMM             * hmm_ptr  = dw_ptr -> hmm_ptr;
   int               line_cnt = dw_ptr -> cur_line_idx;
 
+  memset(gr_ptr->alpha,'\0',MAX_STATE*MAX_LINE*sizeof(double));
+
+  // first col. vector of alpha;
   for( int state_idx = 0; state_idx < MAX_STATE; ++state_idx ){
     gr_ptr -> alpha[state_idx][0] = 
       (hmm_ptr -> initial[state_idx]) * ( hmm_ptr -> 
-          observation[pr_ptr -> model_data[i][0]-'A'][state_idx] );
+          observation[(pr_ptr->model_data[line_cnt][0]-'A')][state_idx] );
   }
 
   for( int observ_idx = 1; 
-      pr_ptr -> model_data[i][observ_idx] != '\0';
+      pr_ptr -> model_data[line_cnt][observ_idx] != '\0';
       ++observ_idx ){
     for( int state_idx = 0; state_idx < MAX_STATE; ++state_idx ){
-      gr_ptr -> alpha[state_idx][observ_idx]
+      /*TODO */
+      // gr_ptr -> alpha[state_idx][observ_idx]
+
     }
   }
 

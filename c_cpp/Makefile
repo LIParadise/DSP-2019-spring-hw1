@@ -1,8 +1,8 @@
 .PHONY: all clean
 
 CXX=clang
-CFLAGS+=-O2 -Wall --std=c99
-LDFLAGS+=-lm    
+CFLAGS+=-pthread -O2 -Wall --std=c99
+LDFLAGS+=-lm -pthread
 # link to math library
 
 TARGET=train
