@@ -24,7 +24,7 @@ typedef struct Greek_letters{
   double *** gamma_arr ;  // gamma regarding a specific observation
   double ** gam_end_arr;  // gamma_end of some specific observation
 
-  double    prob       ;  // prob( O | lambda );
+  long double prob     ;  // prob( O | lambda );
   //                      // sum of last col of alpha matrix.
   //                      // s.t. we don't have to calculate this
   //                      // value for each (observation index)

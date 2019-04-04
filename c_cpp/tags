@@ -65,7 +65,7 @@ observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
 open_or_die	hmm.h	/^static FILE *open_or_die( const char *filename, const char *ht )$/;"	f
 prep_params	utils.h	/^static void prep_params($/;"	f
-prob	utils.h	/^  double    prob       ;  \/\/ prob( O | lambda );$/;"	m	struct:Greek_letters
+prob	utils.h	/^  long double prob     ;  \/\/ prob( O | lambda );$/;"	m	struct:Greek_letters
 results	utils.h	/^  char*   results;    \/\/ results$/;"	m	struct:__anon3
 state_num	hmm.h	/^   int state_num;					\/\/number of state$/;"	m	struct:__anon1
 stt_cnt	utils.h	/^  int     stt_cnt;     \/\/ how many # of hidden states in the HMM.$/;"	m	struct:__anon2

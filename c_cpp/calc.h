@@ -27,6 +27,7 @@ static void init_greek ( Data_wrapper* dw_ptr ){
   HMM          *   hmm_ptr = dw_ptr -> hmm_ptr;
   Parameter_train* pr_ptr  = dw_ptr -> train_ptr;
 
+  gr_ptr -> prob    = 0.0;
   gr_ptr -> alpha   = (double**) malloc( sizeof( double*)  * stt_cnt );
   gr_ptr -> beta    = (double**) malloc( sizeof( double*)  * stt_cnt );
   gr_ptr -> gamma   = (double**) malloc( sizeof( double*)  * stt_cnt );
@@ -161,8 +162,8 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
 
   // update Greek_letters.prob
   gr_ptr -> prob = 0.0;
-  for( int stt_idx = 0; stt_idx < stt_cnt; ++ stt_idx ){
-    gr_ptr -> prob += gr_ptr -> alpha[ stt_idx ][ obsv_len-1 ];
+  for( int i = 0; i < stt_cnt; ++i ){
+    gr_ptr -> prob += gr_ptr -> alpha[i][obsv_len-1];
   }
 
   return NULL;
