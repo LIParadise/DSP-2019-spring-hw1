@@ -32,10 +32,7 @@ int main( int argc, char** argv )
 
   for( int i = 0; i < train.line_cnt; ++i ){
     dw.cur_line_idx = i;
-    pthread_create( &thrd_1  , NULL, fill_alpha  , &dw );
-    pthread_create( &thrd_2  , NULL, fill_beta   , &dw );
-    pthread_join  ( thrd_1, NULL );
-    pthread_join  ( thrd_2, NULL );
+    fill_alpha_and_beta( &thrd_1, &thrd_2, &dw );
     pthread_create( &thrd_1  , NULL, accm_gamma  , &dw );
     pthread_create( &thrd_2  , NULL, accm_epsilon, &dw );
     pthread_join  ( thrd_1, NULL );

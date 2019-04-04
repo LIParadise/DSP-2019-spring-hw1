@@ -1,4 +1,5 @@
 #include <string.h>
+#include <pthread.h>
 #include "utils.h"
 
 #ifndef CALC_HEADER_
@@ -136,6 +137,12 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
     }
   }
 
+  // update Greek_letters.prob
+  gr_ptr -> prob = 0.0;
+  for( int stt_idx = 0; stt_idx < stt_cnt; ++ stt_idx ){
+    gr_ptr -> prob += gr_ptr -> alpha[ stt_idx ][ obsv_len-1 ];
+  }
+
   return NULL;
 }
 
@@ -147,6 +154,17 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
 static void* accm_epsilon ( void* ptr /* (Data_wrapper*) type */ ){
   /* TODO */
   return NULL;
+}
+
+inline static void fill_alpha_and_beta( 
+  pthread_t* thrd_1, pthread_t* thrd_2, Data_wrapper* dw_ptr ){
+  // since fill_alpha and fill_beta have some data dependency,
+  // Greek_letters.prob, to be exact,
+  // we could create a wrapper function for it.
+  pthread_create( &thrd_1  , NULL, fill_alpha , (void*) dw_ptr );
+  pthread_create( &thrd_2  , NULL, fill_beta  , (void*) dw_ptr );
+  pthread_join  ( thrd_1, NULL );
+  pthread_join  ( thrd_2, NULL );
 }
 
 
