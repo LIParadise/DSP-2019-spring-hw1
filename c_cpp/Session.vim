@@ -184,18 +184,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-60,104fold
-108,158fold
-60
+63,107fold
+111,161fold
+63
 normal! zo
-108
+111
 normal! zo
-let s:l = 171 - ((14 * winheight(0) + 19) / 39)
+let s:l = 83 - ((18 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-171
-normal! 03|
+83
+normal! 011|
 wincmd w
 argglobal
 if bufexists("calc.h") | buffer calc.h | else | edit calc.h | endif
@@ -319,16 +319,16 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-60,104fold
-108,158fold
-108
+63,107fold
+111,161fold
+111
 normal! zo
-let s:l = 162 - ((19 * winheight(0) + 19) / 39)
+let s:l = 200 - ((3 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-162
-normal! 0
+200
+normal! 02|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
@@ -477,12 +477,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 102 - ((0 * winheight(0) + 19) / 39)
+let s:l = 46 - ((22 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-102
-normal! 0
+46
+normal! 05|
 wincmd w
 argglobal
 if bufexists("hmm.h") | buffer hmm.h | else | edit hmm.h | endif
@@ -735,11 +735,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 20 - ((15 * winheight(0) + 9) / 18)
+let s:l = 23 - ((18 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-20
+23
 normal! 03|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 85 + 73) / 146)
@@ -891,12 +891,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 12 - ((11 * winheight(0) + 19) / 39)
+let s:l = 20 - ((19 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
-normal! 053|
+20
+normal! 062|
 wincmd w
 argglobal
 if bufexists("utils.h") | buffer utils.h | else | edit utils.h | endif
@@ -1020,11 +1020,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 77 - ((18 * winheight(0) + 10) / 20)
+let s:l = 80 - ((18 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-77
+80
 normal! 032|
 wincmd w
 argglobal
@@ -1149,11 +1149,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 26 - ((4 * winheight(0) + 9) / 18)
+let s:l = 29 - ((7 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-26
+29
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
@@ -1434,11 +1434,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 199 - ((11 * winheight(0) + 9) / 19)
+let s:l = 242 - ((43 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-199
+242
 normal! 019|
 wincmd w
 argglobal
@@ -1580,8 +1580,8 @@ set stal=1
 badd +72 hmm.h
 badd +12 test_hmm.c
 badd +39 train.c
-badd +124 calc.h
-badd +107 utils.h
+badd +186 calc.h
+badd +22 utils.h
 badd +3 hmm.c
 badd +5 hmm.cc
 badd +35 /mnt/data/Document/DSnP/DSnP_hw5/src/main//main.cpp

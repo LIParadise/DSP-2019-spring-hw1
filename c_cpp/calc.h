@@ -26,10 +26,10 @@ static void init_greek ( Data_wrapper* dw_ptr ){
   Greek_letters* gr_ptr  = dw_ptr -> gr_ptr;
   HMM          * hmm_ptr = dw_ptr -> hmm_ptr;
 
-  gr_ptr -> alpha   = (double**)malloc( sizeof( double*) * stt_cnt );
-  gr_ptr -> beta    = (double**)malloc( sizeof( double*) * stt_cnt );
-  gr_ptr -> gamma   = (double**)malloc( sizeof( double*) * stt_cnt );
-  gr_ptr -> epsilon = (double**)malloc( sizeof( double*) * stt_cnt );
+  gr_ptr -> alpha   = (double**) malloc( sizeof( double*)  * stt_cnt );
+  gr_ptr -> beta    = (double**) malloc( sizeof( double*)  * stt_cnt );
+  gr_ptr -> gamma   = (double**) malloc( sizeof( double*)  * stt_cnt );
+  gr_ptr -> epsilon = (double***)malloc( sizeof( double**) * stt_cnt );
 
   for( int i = 0; i < stt_cnt; ++i ){
     gr_ptr -> alpha   [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
@@ -41,7 +41,10 @@ static void init_greek ( Data_wrapper* dw_ptr ){
     gr_ptr -> gamma   [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
   }
   for( int i = 0; i < stt_cnt; ++i ){
-    gr_ptr -> epsilon [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
+    gr_ptr -> epsilon [i] = (double**) malloc( sizeof( double*)  * stt_cnt );
+    for( int j = 0; j < stt_cnt; ++j ){
+      gr_ptr -> epsilon[i][j] = (double*)calloc( MAX_LINE, sizeof( double ) );
+    }
   }
 
 
@@ -160,6 +163,11 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
 
 static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
 
+  // note:
+  // this function is supposed to calc. "gamma" and "gamma_arr"
+  // but WITHOUT the normalization
+  // that is, we need to normalize the PI array later
+
   Data_wrapper    * dw_ptr     = ((Data_wrapper*)(ptr));
   Parameter_train * pr_ptr     = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr     = dw_ptr -> gr_ptr;
@@ -175,9 +183,13 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
   for( int i = 0; i < obsv_len; ++i ){
     for( int j = 0; j < stt_cnt; ++j ){
       gr_ptr -> gamma[j][i] += 
-        (gr_ptr -> alpha[j][i]) * (gr_ptr -> beta[j][i]) * obsv_len;
+        (gr_ptr -> alpha[j][i]) *
+        (gr_ptr -> beta[j][i]) *
+        obsv_len;
       gr_ptr -> gamma_arr[ model_data[line_cnt][i] - 'A' ][j][i] +=
-        (gr_ptr -> alpha[j][i]) * (gr_ptr -> beta[j][i]) * obsv_len;
+        (gr_ptr -> alpha[j][i]) *
+        (gr_ptr -> beta[j][i]) *
+        obsv_len;
     }
   }
   
@@ -185,7 +197,38 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
 }
 
 static void* accm_epsilon ( void* ptr /* (Data_wrapper*) type */ ){
-  /* TODO */
+  
+  // note:
+  // this function is supposed to calc. "epsilon"
+  // but WITHOUT the normalization
+  // that is, we need to normalize the PI array later
+
+
+  Data_wrapper    * dw_ptr     = ((Data_wrapper*)(ptr));
+  Parameter_train * pr_ptr     = dw_ptr -> train_ptr;
+  Greek_letters   * gr_ptr     = dw_ptr -> gr_ptr;
+  HMM             * hmm_ptr    = dw_ptr -> hmm_ptr;
+  int               line_cnt   = dw_ptr -> cur_line_idx;
+  int               stt_cnt    = dw_ptr -> train_ptr -> stt_cnt;
+  int               observ_num = hmm_ptr -> observ_num;
+  int               obsv_len = 0;
+  while( pr_ptr -> model_data[line_cnt][obsv_len] != '\0' ){
+    ++ obsv_len ;
+  }
+
+  for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++ stt_idx_1 ){
+    for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++ stt_idx_2 ){
+      for( int i = 0; i < obsv_len; ++i ){
+        gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] +=
+          gr_ptr  -> alpha[ stt_idx_1 ][ i ] *
+          gr_ptr  -> beta [ stt_idx_2 ][ i ] *
+          hmm_ptr -> transition[ stt_idx_1 ][ stt_idx_2 ] *
+          hmm_ptr -> observation
+          [(pr_ptr->model_data[line_cnt][0]-'A')][ stt_idx_2 ];
+      }
+    }
+  }
+
   return NULL;
 }
 

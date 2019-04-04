@@ -15,7 +15,10 @@ typedef struct Greek_letters{
   double ** alpha      ;  // alpha  [state count][observation index]
   double ** beta       ;  // beta   [state count][observation index]
   double ** gamma      ;  // gamma  [state count][observation index]
-  double ** epsilon    ;  // epsilon[state count][observation index]
+
+  double *** epsilon   ;  // [current state], max = (state count)
+  //                      // [next state], max = (state count)
+  //                      // [observation index]
 
   double *** gamma_arr ;  // gamma regarding a specific observation
 
