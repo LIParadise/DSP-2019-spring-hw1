@@ -219,7 +219,8 @@ static void* accm_epsilon ( void* ptr /* (Data_wrapper*) type */ ){
 
   for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++ stt_idx_1 ){
     for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++ stt_idx_2 ){
-      for( int i = 0; i < obsv_len; ++i ){
+      for( int i = 0; i < obsv_len-1; ++i ){
+        /* note the (obsv_len-1) here*/
         gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] +=
           gr_ptr  -> alpha[ stt_idx_1 ][ i ] *
           gr_ptr  -> beta [ stt_idx_2 ][ i ] *
@@ -273,12 +274,17 @@ static void* calc_A  ( void* ptr /* type (Data_wrapper*) ) */ ){
   Greek_letters   * gr_ptr    = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr   = dw_ptr -> hmm_ptr;
   int               stt_cnt   = dw_ptr -> train_ptr -> stt_cnt;
-  int               line_cnt = dw_ptr -> train_ptr -> line_cnt;
+  int               line_cnt  = dw_ptr -> train_ptr -> line_cnt;
 
   for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++ stt_idx_1 ){
     long double sum1 = 0.0;
-    for( int t = 0; t < MAX_LINE; ++t ){
+    for( int t = 0; MAX_LINE; ++t ){
       sum1 += gr_ptr -> gamma[ stt_idx_1 ][t];
+      /* FIXME */
+      // gamma shall be summed from (1) to (n-1)
+      // thus we shall modify accm_gamma
+      // seperate gamma into a matrix of (stt_cnt)*(1 to (n-1))
+      // and a col. vector, which would be kind of "skewed"
     }
     for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++ stt_idx_2 ){
       long double sum2 = 0.0;
@@ -291,6 +297,30 @@ static void* calc_A  ( void* ptr /* type (Data_wrapper*) ) */ ){
 }
 
 static void* calc_B  ( void* ptr /* type (Data_wrapper*) ) */ ){
+
+  Data_wrapper    * dw_ptr    = ((Data_wrapper*)(ptr));
+  Parameter_train * pr_ptr    = dw_ptr -> train_ptr;
+  Greek_letters   * gr_ptr    = dw_ptr -> gr_ptr;
+  HMM             * hmm_ptr   = dw_ptr -> hmm_ptr;
+  double***         gamma_arr = gr_ptr -> gamma_arr;
+  int               stt_cnt   = dw_ptr -> train_ptr -> stt_cnt;
+  int               line_cnt  = dw_ptr -> train_ptr -> line_cnt;
+
+  for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++ stt_idx_1 ){
+
+    long double sum1 = 0.0;
+    for( int t = 0; t < MAX_LINE; ++t ){
+      sum1 += gr_ptr -> gamma[ stt_idx_1 ][t];
+    }
+    for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++ stt_idx_2 ){
+      long double sum2 = 0.0;
+      for( int t = 0; t < MAX_LINE; ++t ){
+        sum2 += gr_ptr -> epsilon[stt_idx_1][stt_idx_2][t];
+      }
+      hmm_ptr -> transition[ stt_idx_1 ][ stt_idx_2 ] = sum2/sum1;
+    }
+  }
+
 }
 
 static void calc_model(
