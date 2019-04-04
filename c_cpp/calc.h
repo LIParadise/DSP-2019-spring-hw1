@@ -92,7 +92,6 @@ static void* fill_alpha ( void* ptr /* (Data_wrapper*) type */ ){
 }
 
 static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
-  /* TODO */
 
   Data_wrapper    * dw_ptr   = ((Data_wrapper*)(ptr));
   Parameter_train * pr_ptr   = dw_ptr -> train_ptr;
