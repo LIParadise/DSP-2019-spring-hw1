@@ -28,12 +28,16 @@ accm_epsilon	calc.h	/^static void* accm_epsilon ( void* ptr \/* (Data_wrapper*) 
 accm_gamma	calc.h	/^static void* accm_gamma ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 alpha	utils.h	/^  double ** alpha      ;  \/\/ alpha  [state count][observation index]$/;"	m	struct:Greek_letters
 beta	utils.h	/^  double ** beta       ;  \/\/ beta   [state count][observation index]$/;"	m	struct:Greek_letters
+calc_A	calc.h	/^static void* calc_A  ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
+calc_B	calc.h	/^static void* calc_B  ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
+calc_model	calc.h	/^static void calc_model($/;"	f
+calc_pi	calc.h	/^static void* calc_pi ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
 cur_line_idx	utils.h	/^  int              cur_line_idx;  \/\/ current line index$/;"	m	struct:__anon4
 discard	utils.h	/^static void discard( void* ptr , Pram_type type){$/;"	f
 dumpHMM	hmm.h	/^static void dumpHMM( FILE *fp, HMM *hmm )$/;"	f
 dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
 emt_cnt	utils.h	/^  int     emt_cnt;     \/\/ how many # of possible emissions.$/;"	m	struct:__anon2
-epsilon	utils.h	/^  double ** epsilon    ;  \/\/ epsilon[state count][observation index]$/;"	m	struct:Greek_letters
+epsilon	utils.h	/^  double *** epsilon   ;  \/\/ [current state], max = (state count)$/;"	m	struct:Greek_letters
 fill_alpha	calc.h	/^static void* fill_alpha ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 fill_alpha_and_beta	calc.h	/^inline static void fill_alpha_and_beta( $/;"	f
 fill_beta	calc.h	/^static void* fill_beta ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f

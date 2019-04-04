@@ -186,7 +186,8 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
         (gr_ptr -> alpha[j][i]) *
         (gr_ptr -> beta[j][i]) *
         obsv_len;
-      gr_ptr -> gamma_arr[ model_data[line_cnt][i] - 'A' ][j][i] +=
+      gr_ptr -> gamma_arr
+        [ pr_ptr -> model_data[line_cnt][i] - 'A' ][j][i] +=
         (gr_ptr -> alpha[j][i]) *
         (gr_ptr -> beta[j][i]) *
         obsv_len;
@@ -241,6 +242,70 @@ inline static void fill_alpha_and_beta(
   pthread_create( thrd_2  , NULL, fill_beta  , (void*) dw_ptr );
   pthread_join  ( *thrd_1, NULL );
   pthread_join  ( *thrd_2, NULL );
+}
+
+static void* calc_pi ( void* ptr /* type (Data_wrapper*) ) */ ){
+
+  Data_wrapper    * dw_ptr    = ((Data_wrapper*)(ptr));
+  Parameter_train * pr_ptr    = dw_ptr -> train_ptr;
+  Greek_letters   * gr_ptr    = dw_ptr -> gr_ptr;
+  HMM             * hmm_ptr   = dw_ptr -> hmm_ptr;
+  int               stt_cnt   = dw_ptr -> train_ptr -> stt_cnt;
+  int               line_cnt = dw_ptr -> train_ptr -> line_cnt;
+
+  for( int i = 0; i < stt_cnt; ++i ){
+    long double sum = 0.0;
+    for( int j = 0; j < MAX_LINE; ++j ){
+      sum += gr_ptr -> gamma[i][j];
+    }
+    sum /= gr_ptr -> prob;
+    sum /= line_cnt;
+    hmm_ptr -> initial[i] = sum;
+  }
+
+  return (NULL);
+}
+
+static void* calc_A  ( void* ptr /* type (Data_wrapper*) ) */ ){
+
+  Data_wrapper    * dw_ptr    = ((Data_wrapper*)(ptr));
+  Parameter_train * pr_ptr    = dw_ptr -> train_ptr;
+  Greek_letters   * gr_ptr    = dw_ptr -> gr_ptr;
+  HMM             * hmm_ptr   = dw_ptr -> hmm_ptr;
+  int               stt_cnt   = dw_ptr -> train_ptr -> stt_cnt;
+  int               line_cnt = dw_ptr -> train_ptr -> line_cnt;
+
+  for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++ stt_idx_1 ){
+    long double sum1 = 0.0;
+    for( int t = 0; t < MAX_LINE; ++t ){
+      sum1 += gr_ptr -> gamma[ stt_idx_1 ][t];
+    }
+    for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++ stt_idx_2 ){
+      long double sum2 = 0.0;
+      for( int t = 0; t < MAX_LINE; ++t ){
+        sum2 += gr_ptr -> epsilon[stt_idx_1][stt_idx_2][t];
+      }
+      hmm_ptr -> transition[ stt_idx_1 ][ stt_idx_2 ] = sum2/sum1;
+    }
+  }
+}
+
+static void* calc_B  ( void* ptr /* type (Data_wrapper*) ) */ ){
+}
+
+static void calc_model(
+    pthread_t* thrd_1_ptr,
+    pthread_t* thrd_2_ptr, 
+    pthread_t* thrd_3_ptr,
+    Data_wrapper* dw_ptr ){
+
+  pthread_create( thrd_1_ptr, NULL, calc_pi, dw_ptr );
+  pthread_create( thrd_2_ptr, NULL, calc_A , dw_ptr );
+  pthread_create( thrd_3_ptr, NULL, calc_B , dw_ptr );
+  pthread_join  ( *thrd_1_ptr, NULL );
+  pthread_join  ( *thrd_2_ptr, NULL );
+  pthread_join  ( *thrd_3_ptr, NULL );
+  
 }
 
 

@@ -96,7 +96,20 @@ static void prep_params(
     }
     rewind(fp);
     for( int i = 0; i < pr_ptr->line_cnt; ++i ){
+
       fgets(pr_ptr->model_data[i], MAX_LINE, fp) ;
+
+      // sanitize the change line symbols
+      char *pos, *min_pos;
+      min_pos = NULL;
+      if ((pos=strchr(pr_ptr -> model_data[i], '\n')) != NULL)
+        min_pos = pos;
+      if ((pos=strchr(pr_ptr -> model_data[i], '\r')) != NULL)
+        if( pos < min_pos )
+          min_pos = pos;
+      if( min_pos != NULL )
+        memset( min_pos, '\0', 
+            MAX_LINE - ( min_pos - pr_ptr -> model_data[i]) );
     }
 
     fclose( fp );

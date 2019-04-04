@@ -19,7 +19,7 @@ int main( int argc, char** argv )
 	HMM             hmm;
   Greek_letters   gr;
   Data_wrapper    dw;
-  pthread_t       thrd_1, thrd_2;
+  pthread_t       thrd_1, thrd_2, thrd_3;
   dw.train_ptr    = &train;
   dw.gr_ptr       = &gr;
   dw.hmm_ptr      = &hmm;
@@ -38,6 +38,8 @@ int main( int argc, char** argv )
     pthread_join  ( thrd_1, NULL );
     pthread_join  ( thrd_2, NULL );
   }
+
+  calc_model( &thrd_1, &thrd_2, &thrd_3, &dw );
 
 
   /* main code end */
