@@ -160,6 +160,15 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
 
 static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
   /* TODO */
+
+  Data_wrapper    * dw_ptr     = ((Data_wrapper*)(ptr));
+  Parameter_train * pr_ptr     = dw_ptr -> train_ptr;
+  Greek_letters   * gr_ptr     = dw_ptr -> gr_ptr;
+  HMM             * hmm_ptr    = dw_ptr -> hmm_ptr;
+  int               line_cnt   = dw_ptr -> cur_line_idx;
+  int               stt_cnt    = dw_ptr -> train_ptr -> stt_cnt;
+  int               observ_num = hmm_ptr -> observ_num;
+
   
   return NULL;
 }
