@@ -20,7 +20,6 @@ set history=200
 set hlsearch
 set ignorecase
 set laststatus=2
-set mouse=a
 set ruler
 set shiftwidth=2
 set smartcase
@@ -30,6 +29,7 @@ set tabstop=2
 set tags=./tags,./TAGS,~/.tags/tags,~/.tags/TAGS,tags;/home/liparadise,TAGS;/home/liparadise,src/tags,src/TAGS,~/tmp/tags,~/tmp/TAGS
 set undodir=~/.vim/.undo//
 set viminfo='20,\"50
+set window=42
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
@@ -64,11 +64,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe '1resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
-exe '2resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
-exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
+exe '1resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 1resize ' . ((&columns * 73 + 79) / 159)
+exe '2resize ' . ((&lines * 20 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 73 + 79) / 159)
+exe 'vert 3resize ' . ((&columns * 85 + 79) / 159)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -190,11 +190,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 13 - ((2 * winheight(0) + 9) / 19)
+let s:l = 26 - ((8 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-13
+26
 normal! 0
 wincmd w
 argglobal
@@ -319,18 +319,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-63,107fold
-111,161fold
-63
+70,114fold
+118,168fold
+70
 normal! zo
-111
+118
 normal! zo
-let s:l = 34 - ((0 * winheight(0) + 9) / 19)
+let s:l = 26 - ((3 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-34
-normal! 03|
+26
+normal! $
 wincmd w
 argglobal
 if bufexists("calc.h") | buffer calc.h | else | edit calc.h | endif
@@ -454,23 +454,23 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-63,107fold
-111,161fold
-111
+70,114fold
+118,168fold
+118
 normal! zo
-let s:l = 289 - ((27 * winheight(0) + 19) / 39)
+let s:l = 305 - ((24 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-289
-normal! 05|
+305
+normal! 020|
 wincmd w
 3wincmd w
-exe '1resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
-exe '2resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
-exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
+exe '1resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 1resize ' . ((&columns * 73 + 79) / 159)
+exe '2resize ' . ((&lines * 20 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 73 + 79) / 159)
+exe 'vert 3resize ' . ((&columns * 85 + 79) / 159)
 tabnext
 edit calc.h
 set splitbelow splitright
@@ -489,11 +489,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 85 + 73) / 146)
-exe '2resize ' . ((&lines * 20 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 60 + 73) / 146)
-exe '3resize ' . ((&lines * 18 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 60 + 73) / 146)
+exe 'vert 1resize ' . ((&columns * 85 + 79) / 159)
+exe '2resize ' . ((&lines * 20 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 73 + 79) / 159)
+exe '3resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 3resize ' . ((&columns * 73 + 79) / 159)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -615,11 +615,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 72 - ((0 * winheight(0) + 19) / 39)
+let s:l = 81 - ((2 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-72
+81
 normal! 0
 wincmd w
 argglobal
@@ -744,11 +744,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 25 - ((4 * winheight(0) + 10) / 20)
+let s:l = 30 - ((9 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-25
+30
 normal! 0
 wincmd w
 argglobal
@@ -873,18 +873,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 23 - ((10 * winheight(0) + 9) / 18)
+let s:l = 24 - ((0 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-23
+24
 normal! 03|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 85 + 73) / 146)
-exe '2resize ' . ((&lines * 20 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 60 + 73) / 146)
-exe '3resize ' . ((&lines * 18 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 60 + 73) / 146)
+exe 'vert 1resize ' . ((&columns * 85 + 79) / 159)
+exe '2resize ' . ((&lines * 20 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 73 + 79) / 159)
+exe '3resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 3resize ' . ((&columns * 73 + 79) / 159)
 tabnext
 edit utils.h
 set splitbelow splitright
@@ -903,11 +903,12 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
-exe '2resize ' . ((&lines * 20 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
-exe '3resize ' . ((&lines * 18 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 73 + 73) / 146)
+exe '1resize ' . ((&lines * 39 + 21) / 43)
+exe 'vert 1resize ' . ((&columns * 72 + 79) / 159)
+exe '2resize ' . ((&lines * 20 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 73 + 79) / 159)
+exe '3resize ' . ((&lines * 18 + 21) / 43)
+exe 'vert 3resize ' . ((&columns * 73 + 79) / 159)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -1029,11 +1030,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 79 - ((18 * winheight(0) + 19) / 39)
+let s:l = 81 - ((18 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-79
+81
 normal! 04|
 wincmd w
 argglobal
@@ -1158,11 +1159,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 80 - ((18 * winheight(0) + 10) / 20)
+let s:l = 82 - ((18 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-80
+82
 normal! 032|
 wincmd w
 argglobal
@@ -1294,11 +1295,12 @@ normal! zt
 29
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
-exe '2resize ' . ((&lines * 20 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 73 + 73) / 146)
-exe '3resize ' . ((&lines * 18 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 73 + 73) / 146)
+exe '1resize ' . ((&lines * 39 + 21) / 43)
+exe 'vert 1resize ' . ((&columns * 72 + 79) / 159)
+exe '2resize ' . ((&lines * 20 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 73 + 79) / 159)
+exe '3resize ' . ((&lines * 18 + 21) / 43)
+exe 'vert 3resize ' . ((&columns * 73 + 79) / 159)
 tabnext
 edit train.c
 set splitbelow splitright
@@ -1317,11 +1319,12 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
-exe '2resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
-exe '3resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
+exe '1resize ' . ((&lines * 39 + 21) / 43)
+exe 'vert 1resize ' . ((&columns * 73 + 79) / 159)
+exe '2resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 72 + 79) / 159)
+exe '3resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 3resize ' . ((&columns * 72 + 79) / 159)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -1572,11 +1575,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 241 - ((11 * winheight(0) + 9) / 19)
+let s:l = 260 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-241
+260
 normal! 07|
 wincmd w
 argglobal
@@ -1701,25 +1704,26 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 46 - ((11 * winheight(0) + 9) / 19)
+let s:l = 48 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-46
+48
 normal! 017|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
-exe '2resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
-exe '3resize ' . ((&lines * 19 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
+exe '1resize ' . ((&lines * 39 + 21) / 43)
+exe 'vert 1resize ' . ((&columns * 73 + 79) / 159)
+exe '2resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 2resize ' . ((&columns * 72 + 79) / 159)
+exe '3resize ' . ((&lines * 19 + 21) / 43)
+exe 'vert 3resize ' . ((&columns * 72 + 79) / 159)
 tabnext 1
 set stal=1
 badd +113 calc.h
 badd +12 test_hmm.c
-badd +38 train.c
-badd +23 hmm.h
-badd +22 utils.h
+badd +1 train.c
+badd +1 hmm.h
+badd +1 utils.h
 badd +3 hmm.c
 badd +5 hmm.cc
 badd +35 /mnt/data/Document/DSnP/DSnP_hw5/src/main//main.cpp
@@ -1734,6 +1738,7 @@ if file_readable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &so = s:so_save | let &siso = s:siso_save
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

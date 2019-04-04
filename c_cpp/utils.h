@@ -12,15 +12,17 @@ typedef struct Greek_letters{
   // in order to accommodate for different length of observation
 
 
-  double ** alpha      ;  // alpha  [state count][observation index]
-  double ** beta       ;  // beta   [state count][observation index]
-  double ** gamma      ;  // gamma  [state count][observation index]
+  double ** alpha      ;  // alpha [state count][observation index]
+  double ** beta       ;  // beta  [state count][observation index]
+  double ** gamma      ;  // gamma [state count][observation index-1]
+  double *  gamma_end  ;  // col vector of length (state count)
 
   double *** epsilon   ;  // [current state], max = (state count)
   //                      // [next state], max = (state count)
   //                      // [observation index]
 
   double *** gamma_arr ;  // gamma regarding a specific observation
+  double ** gam_end_arr;  // gamma_end of some specific observation
 
   double    prob       ;  // prob( O | lambda );
   //                      // sum of last col of alpha matrix.
