@@ -5,16 +5,20 @@
 #include <stdlib.h>
 
 typedef struct Greek_letters{
-  double ** alpha   ;  // alpha  [state count][observation index]
-  double ** beta    ;  // beta   [state count][observation index]
-  double ** gamma   ;  // gamma  [state count][observation index]
-  double ** epsilon ;  // epsilon[state count][observation index]
+  double ** alpha      ;  // alpha  [state count][observation index]
+  double ** beta       ;  // beta   [state count][observation index]
+  double ** gamma      ;  // gamma  [state count][observation index]
+  double ** epsilon    ;  // epsilon[state count][observation index]
 
-  double    prob    ;  // prob( O | lambda );
-  //                   // sum of last col of alpha matrix.
-  //                   // s.t. we don't have to calculate this
-  //                   // value for each (observation index)
-  //                   // while accumulating gamma and epsilon.
+  double *** gamma_arr ;  // gamma regarding a specific observation
+
+  double    prob       ;  // prob( O | lambda );
+  //                      // sum of last col of alpha matrix.
+  //                      // s.t. we don't have to calculate this
+  //                      // value for each (observation index)
+  //                      // while accumulating gamma and epsilon.
+  //
+
 
 } Greek_letters;
 

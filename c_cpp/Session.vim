@@ -184,11 +184,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 69 - ((21 * winheight(0) + 19) / 39)
+let s:l = 23 - ((4 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-69
+23
 normal! 0
 wincmd w
 argglobal
@@ -313,20 +313,21 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-47,91fold
-95,139fold
-let s:l = 47 - ((16 * winheight(0) + 19) / 39)
+60,104fold
+108,158fold
+108
+normal! zo
+let s:l = 163 - ((11 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-47
-normal! 0
+163
+normal! 02|
 wincmd w
-2wincmd w
 exe 'vert 1resize ' . ((&columns * 70 + 73) / 146)
 exe 'vert 2resize ' . ((&columns * 75 + 73) / 146)
 tabnext
-edit utils.h
+edit calc.h
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -343,11 +344,11 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
+exe 'vert 1resize ' . ((&columns * 85 + 73) / 146)
 exe '2resize ' . ((&lines * 20 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
+exe 'vert 2resize ' . ((&columns * 60 + 73) / 146)
 exe '3resize ' . ((&lines * 18 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
+exe 'vert 3resize ' . ((&columns * 60 + 73) / 146)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -469,12 +470,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 46 - ((38 * winheight(0) + 19) / 39)
+let s:l = 53 - ((20 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-46
-normal! 0
+53
+normal! 038|
 wincmd w
 argglobal
 if bufexists("hmm.h") | buffer hmm.h | else | edit hmm.h | endif
@@ -598,12 +599,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 110 - ((0 * winheight(0) + 10) / 20)
+let s:l = 25 - ((4 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-110
-normal! 08|
+25
+normal! 0
 wincmd w
 argglobal
 if bufexists("utils.h") | buffer utils.h | else | edit utils.h | endif
@@ -727,18 +728,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 76 - ((9 * winheight(0) + 9) / 18)
+let s:l = 13 - ((8 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-76
-normal! 05|
+13
+normal! 03|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
+exe 'vert 1resize ' . ((&columns * 85 + 73) / 146)
 exe '2resize ' . ((&lines * 20 + 21) / 42)
-exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
+exe 'vert 2resize ' . ((&columns * 60 + 73) / 146)
 exe '3resize ' . ((&lines * 18 + 21) / 42)
-exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
+exe 'vert 3resize ' . ((&columns * 60 + 73) / 146)
 tabnext
 edit calc.h
 set splitbelow splitright
@@ -883,12 +884,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 37 - ((11 * winheight(0) + 19) / 39)
+let s:l = 59 - ((42 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-37
-normal! 0
+59
+normal! 046|
 wincmd w
 argglobal
 if bufexists("utils.h") | buffer utils.h | else | edit utils.h | endif
@@ -1012,12 +1013,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 62 - ((12 * winheight(0) + 10) / 20)
+let s:l = 70 - ((18 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-62
-normal! 059|
+70
+normal! 032|
 wincmd w
 argglobal
 if bufexists("hmm.h") | buffer hmm.h | else | edit hmm.h | endif
@@ -1297,15 +1298,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 50 - ((26 * winheight(0) + 19) / 39)
+let s:l = 26 - ((10 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-50
-normal! 03|
+26
+normal! 05|
 wincmd w
 argglobal
-if bufexists("utils.h") | buffer utils.h | else | edit utils.h | endif
+if bufexists("calc.h") | buffer calc.h | else | edit calc.h | endif
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -1426,12 +1427,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 103 - ((18 * winheight(0) + 9) / 19)
+let s:l = 179 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-103
-normal! 011|
+179
+normal! 019|
 wincmd w
 argglobal
 if bufexists("train.c") | buffer train.c | else | edit train.c | endif
@@ -1555,11 +1556,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 49 - ((9 * winheight(0) + 9) / 19)
+let s:l = 44 - ((7 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-49
+44
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
@@ -1567,13 +1568,13 @@ exe '2resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 exe '3resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
-tabnext 1
+tabnext 2
 set stal=1
 badd +72 hmm.h
 badd +12 test_hmm.c
 badd +39 train.c
 badd +22 calc.h
-badd +59 utils.h
+badd +107 utils.h
 badd +3 hmm.c
 badd +5 hmm.cc
 badd +35 /mnt/data/Document/DSnP/DSnP_hw5/src/main//main.cpp
@@ -1588,6 +1589,7 @@ if file_readable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &so = s:so_save | let &siso = s:siso_save
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

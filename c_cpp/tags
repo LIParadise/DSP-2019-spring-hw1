@@ -4,19 +4,19 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-CALC_HEADER_	calc.h	5;"	d
+CALC_HEADER_	calc.h	6;"	d
 Data_wrapper	utils.h	/^} Data_wrapper;$/;"	t	typeref:struct:__anon4
 Greek_letters	utils.h	/^typedef struct Greek_letters{$/;"	s
 Greek_letters	utils.h	/^} Greek_letters;$/;"	t	typeref:struct:Greek_letters
 HMM	hmm.h	/^} HMM;$/;"	t	typeref:struct:__anon1
 HMM_HEADER_	hmm.h	2;"	d
-MAX_LINE	calc.h	20;"	d
+MAX_LINE	calc.h	21;"	d
 MAX_LINE	hmm.h	22;"	d
-MAX_OBSERV	calc.h	12;"	d
+MAX_OBSERV	calc.h	13;"	d
 MAX_OBSERV	hmm.h	14;"	d
-MAX_SEQ	calc.h	16;"	d
+MAX_SEQ	calc.h	17;"	d
 MAX_SEQ	hmm.h	18;"	d
-MAX_STATE	calc.h	8;"	d
+MAX_STATE	calc.h	9;"	d
 MAX_STATE	hmm.h	10;"	d
 PARAMETER_TEST	utils.h	/^  PARAMETER_TEST$/;"	e	enum:__anon5
 PARAMETER_TRAIN	utils.h	/^  PARAMETER_TRAIN = 0,$/;"	e	enum:__anon5
@@ -26,17 +26,19 @@ Pram_type	utils.h	/^} Pram_type;$/;"	t	typeref:enum:__anon5
 UTILS_HEADER_	utils.h	2;"	d
 accm_epsilon	calc.h	/^static void* accm_epsilon ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 accm_gamma	calc.h	/^static void* accm_gamma ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
-alpha	utils.h	/^  double ** alpha   ;$/;"	m	struct:Greek_letters
-beta	utils.h	/^  double ** beta    ;$/;"	m	struct:Greek_letters
+alpha	utils.h	/^  double ** alpha      ;  \/\/ alpha  [state count][observation index]$/;"	m	struct:Greek_letters
+beta	utils.h	/^  double ** beta       ;  \/\/ beta   [state count][observation index]$/;"	m	struct:Greek_letters
 cur_line_idx	utils.h	/^  int              cur_line_idx;  \/\/ current line index$/;"	m	struct:__anon4
 discard	utils.h	/^static void discard( void* ptr , Pram_type type){$/;"	f
 dumpHMM	hmm.h	/^static void dumpHMM( FILE *fp, HMM *hmm )$/;"	f
 dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
 emt_cnt	utils.h	/^  int     emt_cnt;     \/\/ how many # of possible emissions.$/;"	m	struct:__anon2
-epsilon	utils.h	/^  double ** epsilon ;$/;"	m	struct:Greek_letters
+epsilon	utils.h	/^  double ** epsilon    ;  \/\/ epsilon[state count][observation index]$/;"	m	struct:Greek_letters
 fill_alpha	calc.h	/^static void* fill_alpha ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
+fill_alpha_and_beta	calc.h	/^inline static void fill_alpha_and_beta( $/;"	f
 fill_beta	calc.h	/^static void* fill_beta ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
-gamma	utils.h	/^  double ** gamma   ;$/;"	m	struct:Greek_letters
+gamma	utils.h	/^  double ** gamma      ;  \/\/ gamma  [state count][observation index]$/;"	m	struct:Greek_letters
+gamma_arr	utils.h	/^  double *** gamma_arr ;  \/\/ gamma regarding a specific observation$/;"	m	struct:Greek_letters
 gr_ptr	utils.h	/^  Greek_letters*   gr_ptr;$/;"	m	struct:__anon4
 hmm_ptr	utils.h	/^  HMM*             hmm_ptr;$/;"	m	struct:__anon4
 init_greek	calc.h	/^static void init_greek ( Data_wrapper* dw_ptr ){$/;"	f
@@ -57,6 +59,7 @@ observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
 open_or_die	hmm.h	/^static FILE *open_or_die( const char *filename, const char *ht )$/;"	f
 prep_params	utils.h	/^static void prep_params($/;"	f
+prob	utils.h	/^  double    prob       ;  \/\/ prob( O | lambda );$/;"	m	struct:Greek_letters
 results	utils.h	/^  char*   results;    \/\/ results$/;"	m	struct:__anon3
 state_num	hmm.h	/^   int state_num;					\/\/number of state$/;"	m	struct:__anon1
 stt_cnt	utils.h	/^  int     stt_cnt;     \/\/ how many # of hidden states in the HMM.$/;"	m	struct:__anon2

@@ -24,6 +24,7 @@
 static void init_greek ( Data_wrapper* dw_ptr ){
   int            stt_cnt = dw_ptr -> train_ptr -> stt_cnt;
   Greek_letters* gr_ptr  = dw_ptr -> gr_ptr;
+  HMM          * hmm_ptr = dw_ptr -> hmm_ptr;
 
   gr_ptr -> alpha   = (double**)malloc( sizeof( double*) * stt_cnt );
   gr_ptr -> beta    = (double**)malloc( sizeof( double*) * stt_cnt );
@@ -41,6 +42,17 @@ static void init_greek ( Data_wrapper* dw_ptr ){
   }
   for( int i = 0; i < stt_cnt; ++i ){
     gr_ptr -> epsilon [i] = (double*)calloc( MAX_LINE, sizeof( double ) );
+  }
+
+
+  gr_ptr -> gamma_arr = (double***)malloc
+    ( hmm_ptr -> observ_num * sizeof( double** ) );
+
+  for( int i = 0; i < hmm_ptr -> observ_num; ++i ){
+    gr_ptr -> gamma_arr[i] = (double**)malloc( sizeof( double*) * stt_cnt );
+    for( int j = 0; j < stt_cnt; ++j ){
+      gr_ptr -> gamma_arr[i][j] = (double*)calloc( MAX_LINE, sizeof( double ) );
+    }
   }
 }
 
@@ -148,6 +160,7 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
 
 static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
   /* TODO */
+  
   return NULL;
 }
 
@@ -161,10 +174,10 @@ inline static void fill_alpha_and_beta(
   // since fill_alpha and fill_beta have some data dependency,
   // Greek_letters.prob, to be exact,
   // we could create a wrapper function for it.
-  pthread_create( &thrd_1  , NULL, fill_alpha , (void*) dw_ptr );
-  pthread_create( &thrd_2  , NULL, fill_beta  , (void*) dw_ptr );
-  pthread_join  ( thrd_1, NULL );
-  pthread_join  ( thrd_2, NULL );
+  pthread_create( thrd_1  , NULL, fill_alpha , (void*) dw_ptr );
+  pthread_create( thrd_2  , NULL, fill_beta  , (void*) dw_ptr );
+  pthread_join  ( *thrd_1, NULL );
+  pthread_join  ( *thrd_2, NULL );
 }
 
 
