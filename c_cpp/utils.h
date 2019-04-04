@@ -5,6 +5,13 @@
 #include <stdlib.h>
 
 typedef struct Greek_letters{
+
+  // remark:
+  // the matrices gamma and its derivatives and epsilon
+  // are normalized in regard to observation length
+  // in order to accommodate for different length of observation
+
+
   double ** alpha      ;  // alpha  [state count][observation index]
   double ** beta       ;  // beta   [state count][observation index]
   double ** gamma      ;  // gamma  [state count][observation index]

@@ -159,7 +159,6 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
 }
 
 static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
-  /* TODO */
 
   Data_wrapper    * dw_ptr     = ((Data_wrapper*)(ptr));
   Parameter_train * pr_ptr     = dw_ptr -> train_ptr;
@@ -168,7 +167,19 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
   int               line_cnt   = dw_ptr -> cur_line_idx;
   int               stt_cnt    = dw_ptr -> train_ptr -> stt_cnt;
   int               observ_num = hmm_ptr -> observ_num;
+  int               obsv_len = 0;
+  while( pr_ptr -> model_data[line_cnt][obsv_len] != '\0' ){
+    ++ obsv_len ;
+  }
 
+  for( int i = 0; i < obsv_len; ++i ){
+    for( int j = 0; j < stt_cnt; ++j ){
+      gr_ptr -> gamma[j][i] += 
+        (gr_ptr -> alpha[j][i]) * (gr_ptr -> beta[j][i]) * obsv_len;
+      gr_ptr -> gamma_arr[ model_data[line_cnt][i] - 'A' ][j][i] +=
+        (gr_ptr -> alpha[j][i]) * (gr_ptr -> beta[j][i]) * obsv_len;
+    }
+  }
   
   return NULL;
 }

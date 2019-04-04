@@ -61,8 +61,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 70 + 73) / 146)
-exe 'vert 2resize ' . ((&columns * 75 + 73) / 146)
+exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
+exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -184,12 +184,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 23 - ((4 * winheight(0) + 19) / 39)
+60,104fold
+108,158fold
+60
+normal! zo
+108
+normal! zo
+let s:l = 171 - ((14 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-23
-normal! 0
+171
+normal! 03|
 wincmd w
 argglobal
 if bufexists("calc.h") | buffer calc.h | else | edit calc.h | endif
@@ -317,15 +323,16 @@ silent! normal! zE
 108,158fold
 108
 normal! zo
-let s:l = 163 - ((11 * winheight(0) + 19) / 39)
+let s:l = 162 - ((19 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-163
-normal! 02|
+162
+normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 70 + 73) / 146)
-exe 'vert 2resize ' . ((&columns * 75 + 73) / 146)
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 73 + 73) / 146)
+exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 tabnext
 edit calc.h
 set splitbelow splitright
@@ -470,12 +477,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 53 - ((20 * winheight(0) + 19) / 39)
+let s:l = 102 - ((0 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-53
-normal! 038|
+102
+normal! 0
 wincmd w
 argglobal
 if bufexists("hmm.h") | buffer hmm.h | else | edit hmm.h | endif
@@ -728,11 +735,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 13 - ((8 * winheight(0) + 9) / 18)
+let s:l = 20 - ((15 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-13
+20
 normal! 03|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 85 + 73) / 146)
@@ -741,7 +748,7 @@ exe 'vert 2resize ' . ((&columns * 60 + 73) / 146)
 exe '3resize ' . ((&lines * 18 + 21) / 42)
 exe 'vert 3resize ' . ((&columns * 60 + 73) / 146)
 tabnext
-edit calc.h
+edit utils.h
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -884,12 +891,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 59 - ((42 * winheight(0) + 19) / 39)
+let s:l = 12 - ((11 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-59
-normal! 046|
+12
+normal! 053|
 wincmd w
 argglobal
 if bufexists("utils.h") | buffer utils.h | else | edit utils.h | endif
@@ -1013,11 +1020,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 70 - ((18 * winheight(0) + 10) / 20)
+let s:l = 77 - ((18 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-70
+77
 normal! 032|
 wincmd w
 argglobal
@@ -1142,12 +1149,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 55 - ((0 * winheight(0) + 9) / 18)
+let s:l = 26 - ((4 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-55
-normal! 04|
+26
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 72 + 73) / 146)
 exe '2resize ' . ((&lines * 20 + 21) / 42)
@@ -1298,11 +1305,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 26 - ((10 * winheight(0) + 19) / 39)
+let s:l = 35 - ((19 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-26
+35
 normal! 05|
 wincmd w
 argglobal
@@ -1427,11 +1434,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 179 - ((11 * winheight(0) + 9) / 19)
+let s:l = 199 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-179
+199
 normal! 019|
 wincmd w
 argglobal
@@ -1568,12 +1575,12 @@ exe '2resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 2resize ' . ((&columns * 72 + 73) / 146)
 exe '3resize ' . ((&lines * 19 + 21) / 42)
 exe 'vert 3resize ' . ((&columns * 72 + 73) / 146)
-tabnext 2
+tabnext 1
 set stal=1
 badd +72 hmm.h
 badd +12 test_hmm.c
 badd +39 train.c
-badd +22 calc.h
+badd +124 calc.h
 badd +107 utils.h
 badd +3 hmm.c
 badd +5 hmm.cc
