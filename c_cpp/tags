@@ -24,6 +24,8 @@ Parameter_test	utils.h	/^} Parameter_test;$/;"	t	typeref:struct:__anon3
 Parameter_train	utils.h	/^} Parameter_train;$/;"	t	typeref:struct:__anon2
 Pram_type	utils.h	/^} Pram_type;$/;"	t	typeref:enum:__anon5
 UTILS_HEADER_	utils.h	2;"	d
+accm_epsilon	calc.h	/^static void* accm_epsilon ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
+accm_gamma	calc.h	/^static void* accm_gamma ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 alpha	utils.h	/^  double ** alpha   ;$/;"	m	struct:Greek_letters
 beta	utils.h	/^  double ** beta    ;$/;"	m	struct:Greek_letters
 cur_line_idx	utils.h	/^  int              cur_line_idx;  \/\/ current line index$/;"	m	struct:__anon4
@@ -33,6 +35,7 @@ dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
 emt_cnt	utils.h	/^  int     emt_cnt;     \/\/ how many # of possible emissions.$/;"	m	struct:__anon2
 epsilon	utils.h	/^  double ** epsilon ;$/;"	m	struct:Greek_letters
 fill_alpha	calc.h	/^static void* fill_alpha ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
+fill_beta	calc.h	/^static void* fill_beta ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 gamma	utils.h	/^  double ** gamma   ;$/;"	m	struct:Greek_letters
 gr_ptr	utils.h	/^  Greek_letters*   gr_ptr;$/;"	m	struct:__anon4
 hmm_ptr	utils.h	/^  HMM*             hmm_ptr;$/;"	m	struct:__anon4

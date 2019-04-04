@@ -74,21 +74,79 @@ static void* fill_alpha ( void* ptr /* (Data_wrapper*) type */ ){
       ++observ_idx ){
 
 
-    for( int state_idx_1 = 0; state_idx_1 < stt_cnt; ++state_idx_1 ){
-      /*TODO */
-      gr_ptr -> alpha[state_idx_1][observ_idx] = 0.0;
-      for( int state_idx_2 = 0; state_idx_2 < stt_cnt; ++state_idx_2 ){
-        gr_ptr -> alpha[state_idx_1][observ_idx] +=
-          gr_ptr  -> alpha[state_idx_2][observ_idx-1] *
-          hmm_ptr -> transition[ state_idx_2 ][ state_idx_1 ];
+    for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++stt_idx_1 ){
+      gr_ptr -> alpha[stt_idx_1][observ_idx] = 0.0;
+      for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++stt_idx_2 ){
+        gr_ptr -> alpha[stt_idx_1][observ_idx] +=
+          gr_ptr  -> alpha[stt_idx_2][observ_idx-1] *
+          hmm_ptr -> transition[ stt_idx_2 ][ stt_idx_1 ];
       }
-      gr_ptr -> alpha[state_idx_1][observ_idx] *= 
+      gr_ptr -> alpha[stt_idx_1][observ_idx] *= 
         hmm_ptr -> observation
-        [pr_ptr->model_data[line_cnt][observ_idx]-'A'][state_idx_1];
+        [pr_ptr->model_data[line_cnt][observ_idx]-'A'][stt_idx_1];
     }
 
   }
 
+  return NULL;
+}
+
+static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
+  /* TODO */
+
+  Data_wrapper    * dw_ptr   = ((Data_wrapper*)(ptr));
+  Parameter_train * pr_ptr   = dw_ptr -> train_ptr;
+  Greek_letters   * gr_ptr   = dw_ptr -> gr_ptr;
+  HMM             * hmm_ptr  = dw_ptr -> hmm_ptr;
+  int               line_cnt = dw_ptr -> cur_line_idx;
+  int               stt_cnt  = dw_ptr -> train_ptr -> stt_cnt;
+  int               obsv_len = 0;
+  while( pr_ptr -> model_data[line_cnt][obsv_len] != '\0' ){
+    ++ obsv_len ;
+  }
+
+  // reset the matrix
+  for( int i = 0; i < stt_cnt; ++i ){
+    memset( gr_ptr -> beta[i], '\0', MAX_LINE);
+  }
+
+  // initial condition, i.e. last col vector of the beta matrix
+  for( int state_idx = 0; state_idx < stt_cnt; ++state_idx ){
+    gr_ptr -> beta[state_idx][obsv_len-1] = 1;
+  }
+
+  // recursive col vector 
+  for( int observ_idx = obsv_len-2;
+      observ_idx >= 0;
+      --observ_idx ){
+
+
+    for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++stt_idx_1 ){
+
+      gr_ptr -> beta[ stt_idx_1][observ_idx] = 0.0;
+
+      for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++stt_idx_2 ){
+
+        gr_ptr -> beta[ stt_idx_1][observ_idx] +=
+          hmm_ptr->transition[ stt_idx_1 ][ stt_idx_2 ] *
+          hmm_ptr->observation
+          [pr_ptr->model_data[line_cnt][observ_idx+1]-'A'][stt_idx_2]*
+          gr_ptr ->beta[stt_idx_2][observ_idx+1];
+
+      }
+    }
+  }
+
+  return NULL;
+}
+
+static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
+  /* TODO */
+  return NULL;
+}
+
+static void* accm_epsilon ( void* ptr /* (Data_wrapper*) type */ ){
+  /* TODO */
   return NULL;
 }
 

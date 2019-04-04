@@ -1,7 +1,7 @@
 .PHONY: all clean
 
 CXX=clang
-CFLAGS+=-pthread -O2 -Wall --std=c99
+CFLAGS+=-g -pthread -O2 -Wall --std=c99
 LDFLAGS+=-lm -pthread
 # link to math library
 

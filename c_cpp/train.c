@@ -47,10 +47,10 @@ int main( int argc, char** argv )
 
 
   /* output */
-  discard( &train, PARAMETER_TRAIN );
 	dump_models( &hmm, 1 );
   FILE* fp = open_or_die( train.model_OP , "w");
   dumpHMM( fp, &hmm );
+  discard( &train, PARAMETER_TRAIN );
   fclose( fp );
 
 	return 0;
