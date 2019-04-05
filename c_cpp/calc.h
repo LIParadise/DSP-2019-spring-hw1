@@ -180,31 +180,34 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
 
   // note:
   // this function is supposed to calc. "gamma" and "gamma_arr"
-  // but WITHOUT the normalization
-  // that is, we need to normalize the PI array later
+  // WITH the normalization
+  // where we'll devide the (Greek_letters.prob) in this function
+  // that is, we DON'T need to normalize the PI array later
 
   Data_wrapper    * dw_ptr     = ((Data_wrapper*)(ptr));
   Parameter_train * pr_ptr     = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr     = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr    = dw_ptr -> hmm_ptr;
-  int               line_cnt   = dw_ptr -> cur_line_idx;
+  int               line_idx   = dw_ptr -> cur_line_idx;
   int               stt_cnt    = dw_ptr -> train_ptr -> stt_cnt;
   int               obsv_len = 0;
-  while( pr_ptr -> model_data[line_cnt][obsv_len] != '\0' ){
+  while( pr_ptr -> model_data[line_idx][obsv_len] != '\0' ){
     ++ obsv_len ;
   }
 
   for( int i = 0; i < obsv_len-1; ++i ){
     for( int j = 0; j < stt_cnt; ++j ){
+
       gr_ptr -> gamma[j][i] += 
         (gr_ptr -> alpha[j][i]) *
-        (gr_ptr -> beta[j][i]) *
+        (gr_ptr -> beta [j][i]) *
         obsv_len;
+      gr_ptr -> gamma[j][i] /= gr_ptr -> prob;
+
       gr_ptr -> gamma_arr
-        [ pr_ptr -> model_data[line_cnt][i] - 'A' ][j][i] +=
-        (gr_ptr -> alpha[j][i]) *
-          (gr_ptr -> beta[j][i]) *
-          obsv_len;
+        [ pr_ptr -> model_data[line_idx][i] - 'A' ][j][i] +=
+        gr_ptr -> gamma[j][i];
+
     }
   }
 
@@ -214,12 +217,12 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
       (gr_ptr -> alpha[j][obsv_len-1]) *
       (gr_ptr -> beta [j][obsv_len-1]) *
       obsv_len;
+    gr_ptr -> gamma_end[j] /= gr_ptr -> prob;
 
     gr_ptr -> gam_end_arr
-      [pr_ptr -> model_data[line_cnt][obsv_len-1]-'A'][j] +=
+      [pr_ptr -> model_data[line_idx][obsv_len-1]-'A'][j] +=
       gr_ptr -> gamma_end[j];
   }
-
 
   return NULL;
 }

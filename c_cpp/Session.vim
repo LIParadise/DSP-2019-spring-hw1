@@ -196,11 +196,11 @@ silent! normal! zE
 normal! zo
 124
 normal! zo
-let s:l = 185 - ((28 * winheight(0) + 19) / 39)
+let s:l = 230 - ((3 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-185
+230
 normal! 0
 wincmd w
 argglobal
@@ -333,7 +333,7 @@ normal! zt
 normal! 020|
 wincmd w
 argglobal
-if bufexists("train.c") | buffer train.c | else | edit train.c | endif
+if bufexists("calc.h") | buffer calc.h | else | edit calc.h | endif
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -368,8 +368,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'c'
-setlocal filetype=c
+if &filetype != 'cpp'
+setlocal filetype=cpp
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -434,8 +434,8 @@ setlocal statusline=
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'c'
-setlocal syntax=c
+if &syntax != 'cpp'
+setlocal syntax=cpp
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -454,12 +454,18 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 38 - ((10 * winheight(0) + 9) / 19)
+71,115fold
+119,169fold
+71
+normal! zo
+119
+normal! zo
+let s:l = 60 - ((7 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-38
-normal! 05|
+60
+normal! 013|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 76 + 73) / 146)
 exe '2resize ' . ((&lines * 19 + 21) / 42)
@@ -739,11 +745,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 268 - ((11 * winheight(0) + 9) / 19)
+let s:l = 271 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-268
+271
 normal! 07|
 wincmd w
 argglobal
@@ -1712,7 +1718,7 @@ tabnext 1
 set stal=1
 badd +263 calc.h
 badd +12 test_hmm.c
-badd +1 train.c
+badd +29 train.c
 badd +1 hmm.h
 badd +1 utils.h
 badd +3 hmm.c
