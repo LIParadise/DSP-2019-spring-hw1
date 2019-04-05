@@ -25,7 +25,7 @@ Parameter_train	utils.h	/^} Parameter_train;$/;"	t	typeref:struct:__anon3
 Pram_type	utils.h	/^} Pram_type;$/;"	t	typeref:enum:__anon7
 UTILS_HEADER_	utils.h	2;"	d
 Viterbi	calc.h	/^void* Viterbi( void* ptr \/* of type Viterbi_wrapper *\/ ){$/;"	f
-Viterbi_OP	calc.h	/^void Viterbi_OP( FILE* fp, int arr, Parameter_test* pt_ptr ){$/;"	f
+Viterbi_OP	calc.h	/^void Viterbi_OP( FILE* fp, $/;"	f
 Viterbi_letters	utils.h	/^} Viterbi_letters;$/;"	t	typeref:struct:__anon2
 Viterbi_wrapper	utils.h	/^} Viterbi_wrapper;$/;"	t	typeref:struct:__anon5
 accm_epsilon	calc.h	/^static void* accm_epsilon ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f

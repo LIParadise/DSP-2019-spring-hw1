@@ -571,7 +571,17 @@ int max_idx( long double* ptr, int cnt ) {
   return idx;
 }
 
-void Viterbi_OP( FILE* fp, int arr, Parameter_test* pt_ptr ){
+void Viterbi_OP( FILE* fp, 
+    int* arr, 
+    long double* results, 
+    Parameter_test* pt_ptr ){
+
+  int    data_vec_cnt = pt_ptr -> data_vec_cnt;
+  for( int i = 0; i < data_vec_cnt; ++i ){
+    fprintf( fp, pt_ptr -> mod_name_list[ arr[i] ] );
+    fprintf( fp, "\t%.5g\n", results[i] );
+  }
+
 }
 
 #endif // CALC_HEADER_

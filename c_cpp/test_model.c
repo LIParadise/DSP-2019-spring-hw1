@@ -80,7 +80,7 @@ int main( int argc, char** argv )
 
   /* output */
   FILE* fp = open_or_die( test.results , "w");
-  Viterbi_OP( fp, belong, &test );
+  Viterbi_OP( fp, belong, results, &test );
   fclose( fp );
 
   return 0;
