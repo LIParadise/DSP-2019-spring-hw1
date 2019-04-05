@@ -25,20 +25,22 @@ int main( int argc, char** argv )
   Viterbi_wrapper wrap_arr  [ test.model_cnt    ];
   Viterbi_letters lett_arr  [ test.model_cnt    ];
   int             belong    [ test.data_vec_cnt ];
+  long double     results   [ test.data_vec_cnt ];
   load_models( test.model_list, hmm_list, test.model_cnt );
 
   for( int i = 0; i < test.model_cnt; ++i ){
 
-    lett_arr[i].delta = (double**)malloc( 
-        hmm_list[i].state_num * sizeof( double* ) );
-    lett_arr[i].phi   = (int**   )malloc(
+    lett_arr[i].delta = (long double**)malloc( 
+        hmm_list[i].state_num * sizeof( long double* ) );
+    lett_arr[i].phi   = (int**        )malloc(
         hmm_list[i].state_num * sizeof( int*    ) );
 
     for( int j = 0; j < hmm_list[i].state_num; ++j ){
-      lett_arr[i].delta[j] = (double*)calloc(
-          MAX_LINE, sizeof( double ) );
-      lett_arr[i].phi  [j] = (int*)   calloc(
-          MAX_LINE, sizeof( int    ) );
+      lett_arr[i].delta[j] = (long double*)calloc(
+          MAX_LINE, sizeof( long double ) );
+
+      lett_arr[i].phi  [j] = (int*        )calloc(
+          MAX_LINE, sizeof( int         ) );
     }
 
   }
@@ -47,10 +49,16 @@ int main( int argc, char** argv )
     wrap_arr[i].ptr       = &test;
     wrap_arr[i].model_idx = i;
     wrap_arr[i].let_ptr   = lett_arr+i;
+    wrap_arr[i].hmm_ptr   = hmm_list+i;
   }
 
   /* main code */
-  for( int t = 0; t < test.data_vec_cnt; ++t ){
+  for( int l = 0; l < test.data_vec_cnt; ++l ){
+
+    for( int i = 0; i < test.model_cnt; ++i ){
+      wrap_arr[i].model_idx = l ;
+      wrap_arr[i].prob_ptr  = prob_rnk + i;
+    }
 
     for( int i = 0; i < test.model_cnt; ++i ){
       pthread_create( thrd_list+i, 
@@ -60,10 +68,11 @@ int main( int argc, char** argv )
     }
 
     for( int i = 0; i < test.model_cnt; ++i ){
-      pthread_join( thrd_list[i], prob_rnk+i );
+      pthread_join( thrd_list[i], NULL );
     }
 
-    belong[t] = max_idx( prob_rnk, test.model_cnt );
+    belong [l] = max_idx( prob_rnk, test.model_cnt );
+    results[l] = prob_rnk[ belong[l] ];
   }
 
   /* main code end */

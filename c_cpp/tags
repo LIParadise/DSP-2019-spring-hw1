@@ -31,6 +31,7 @@ Viterbi_wrapper	utils.h	/^} Viterbi_wrapper;$/;"	t	typeref:struct:__anon5
 accm_epsilon	calc.h	/^static void* accm_epsilon ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 accm_gamma	calc.h	/^static void* accm_gamma ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 alpha	utils.h	/^  double ** alpha      ;  \/\/ alpha [state count][observation index]$/;"	m	struct:Greek_letters
+arr	calc.h	/^  char   arr[sizeof(double)];$/;"	m	union:__anon8
 beta	utils.h	/^  double ** beta       ;  \/\/ beta  [state count][observation index]$/;"	m	struct:Greek_letters
 calc_A	calc.h	/^static void* calc_A  ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
 calc_B	calc.h	/^static void* calc_B  ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
@@ -40,7 +41,7 @@ cur_line_idx	utils.h	/^  int              cur_line_idx;  \/\/ current line index
 cur_obsv_len	utils.h	/^  int     cur_obsv_len ;$/;"	m	struct:Greek_letters
 data_vec_cnt	utils.h	/^  int     data_vec_cnt  ;$/;"	m	struct:__anon4
 data_vec_list	utils.h	/^  char**  data_vec_list ;$/;"	m	struct:__anon4
-delta	utils.h	/^  double ** delta;$/;"	m	struct:__anon2
+delta	utils.h	/^  long double ** delta;$/;"	m	struct:__anon2
 discard	utils.h	/^static void discard( void* ptr , Pram_type type){$/;"	f
 dumpHMM	hmm.h	/^static void dumpHMM( FILE *fp, HMM *hmm )$/;"	f
 dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
@@ -54,17 +55,21 @@ gamma	utils.h	/^  double ** gamma      ;  \/\/ gamma [state count][observation i
 gamma_arr	utils.h	/^  double *** gamma_arr ;  \/\/ gamma regarding a specific observation$/;"	m	struct:Greek_letters
 gamma_end	utils.h	/^  double *  gamma_end  ;  \/\/ col vector of length (state count)$/;"	m	struct:Greek_letters
 gr_ptr	utils.h	/^  Greek_letters*   gr_ptr;$/;"	m	struct:__anon6
+hack	calc.h	/^}hack;$/;"	t	typeref:union:__anon8
+hmm_ptr	utils.h	/^  HMM*              hmm_ptr;$/;"	m	struct:__anon5
 hmm_ptr	utils.h	/^  HMM*             hmm_ptr;$/;"	m	struct:__anon6
 init_greek	calc.h	/^static void init_greek ( Data_wrapper* dw_ptr ){$/;"	f
 initial	hmm.h	/^   double initial[MAX_STATE];			\/\/initial prob.$/;"	m	struct:__anon1
 it_cnt	utils.h	/^  int     it_cnt;      \/\/ iteration count$/;"	m	struct:__anon3
+let_ptr	utils.h	/^  Viterbi_letters*  let_ptr;$/;"	m	struct:__anon5
 line_cnt	utils.h	/^  int     line_cnt;    \/\/ total lines in the "model_train" file$/;"	m	struct:__anon3
+line_idx	utils.h	/^  int     line_idx      ;$/;"	m	struct:__anon4
 loadHMM	hmm.h	/^static void loadHMM( HMM *hmm, const char *filename )$/;"	f
 load_models	hmm.h	/^static int load_models( const char *listname, HMM *hmm, const int max_num )$/;"	f
 load_params	utils.h	/^static void load_params( $/;"	f
 main	test_model.c	/^int main( int argc, char** argv )$/;"	f
 main	train.c	/^int main( int argc, char** argv )$/;"	f
-max_idx	calc.h	/^int   max_idx( long double* ptr, int cnt ) {$/;"	f
+max_idx	calc.h	/^int max_idx( long double* ptr, int cnt ) {$/;"	f
 mod_name_list	utils.h	/^  char**  mod_name_list ;$/;"	m	struct:__anon4
 model_OP	utils.h	/^  char*   model_OP;    \/\/ trained model name$/;"	m	struct:__anon3
 model_cnt	utils.h	/^  int     model_cnt     ;$/;"	m	struct:__anon4
@@ -78,9 +83,10 @@ normalize_model	calc.h	/^static void normalize_model ( Data_wrapper* dw_ptr ){$/
 observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct:__anon1
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
 open_or_die	hmm.h	/^static FILE *open_or_die( const char *filename, const char *ht )$/;"	f
-phi	utils.h	/^  int    ** phi  ; $/;"	m	struct:__anon2
+phi	utils.h	/^  int         ** phi  ; $/;"	m	struct:__anon2
 prep_params	utils.h	/^static void prep_params($/;"	f
 prob	utils.h	/^  long double prob     ;  \/\/ prob( O | lambda );$/;"	m	struct:Greek_letters
+prob_ptr	utils.h	/^  long double*      prob_ptr;$/;"	m	struct:__anon5
 ptr	utils.h	/^  Parameter_test*   ptr;$/;"	m	struct:__anon5
 reset_tmp_data	calc.h	/^static void reset_tmp_data( Data_wrapper* dw_ptr ){$/;"	f
 results	utils.h	/^  char*   results       ;  \/\/ results$/;"	m	struct:__anon4
@@ -91,3 +97,4 @@ test_ptr	utils.h	/^  Parameter_train* test_ptr;$/;"	m	struct:__anon6
 total_len	utils.h	/^  size_t  total_len;   \/\/ total observed length $/;"	m	struct:__anon3
 train_ptr	utils.h	/^  Parameter_train* train_ptr;$/;"	m	struct:__anon6
 transition	hmm.h	/^   double transition[MAX_STATE][MAX_STATE];	\/\/transition prob.$/;"	m	struct:__anon1
+value	calc.h	/^  double value;$/;"	m	union:__anon8

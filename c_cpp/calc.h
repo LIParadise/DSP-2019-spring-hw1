@@ -21,6 +21,11 @@
 #	define MAX_LINE 	256
 #endif
 
+typedef union{
+  double value;
+  char   arr[sizeof(double)];
+}hack;
+
 static void init_greek ( Data_wrapper* dw_ptr ){
   int              stt_cnt = dw_ptr -> train_ptr -> stt_cnt;
   Greek_letters*   gr_ptr  = dw_ptr -> gr_ptr;
@@ -487,9 +492,83 @@ static void reset_tmp_data( Data_wrapper* dw_ptr ){
 }
 
 void* Viterbi( void* ptr /* of type Viterbi_wrapper */ ){
+  Viterbi_wrapper* vw_ptr     = (Viterbi_wrapper*)(ptr);
+  int              model_idx  = vw_ptr -> model_idx;
+  Parameter_test*  pt_ptr     = vw_ptr -> ptr;
+  int              line_idx   = pt_ptr -> line_idx;
+  Viterbi_letters* vl_ptr     = vw_ptr -> let_ptr;
+  HMM*             hmm_ptr    = vw_ptr -> hmm_ptr;
+  int              obsv_len   = 0;
+  long double*     prob_ptr   = vw_ptr -> prob_ptr;
+  while( pt_ptr -> data_vec_list[line_idx][obsv_len] != '\0' )
+    ++ obsv_len;
+
+  for( int i = 0; i < hmm_ptr -> state_num; ++i ){
+    memset( vl_ptr -> delta[i], 
+        '\0',
+        sizeof( long double )*MAX_LINE );
+    memset( vl_ptr -> phi  [i], 
+        '\0', 
+        sizeof( int         )*MAX_LINE );
+  }
+
+  // first col of delta
+  for( int i = 0; i < hmm_ptr -> state_num; ++i ){
+    vl_ptr -> delta[i][0] = hmm_ptr -> initial[i] *
+      hmm_ptr->observation
+      [pt_ptr->data_vec_list[line_idx][0]-'A'][i];
+  }
+
+  // recursive
+  for( int t = 1; t < obsv_len; ++ t ){
+
+    for(int stt_idx=0;stt_idx<hmm_ptr->state_num; ++stt_idx ) {
+
+      long double tmp = 0.0;
+      int         j   = 0;
+      for( int i = 0; i < hmm_ptr -> state_num; ++ i ){
+        if( (
+              vl_ptr -> delta[i][t-1] *
+              hmm_ptr -> transition[i][stt_idx] 
+              ) >= tmp ){
+          tmp = vl_ptr -> delta[i][t-1] *
+            hmm_ptr -> transition[i][stt_idx];
+          j = i;
+        }
+      }
+      vl_ptr -> phi     [stt_idx][t] = j;
+      vl_ptr -> delta   [stt_idx][t] = 
+        vl_ptr  -> delta     [vl_ptr->phi[stt_idx][t]][ t-1 ]   *
+        hmm_ptr -> transition[vl_ptr->phi[stt_idx][t]][stt_idx] *
+        hmm_ptr -> observation
+        [pt_ptr -> data_vec_list[line_idx][t]-'A'][stt_idx] ;
+    }
+
+  }
+
+  long double tmp = -0.1;
+  int         ret = 0;
+  for( int i = 0; i < hmm_ptr -> state_num; ++i ){
+    if( vl_ptr -> delta[i][obsv_len-1] >= tmp ){
+      tmp = vl_ptr -> delta[i][obsv_len-1];
+      ret = i;
+    }
+  }
+
+  *prob_ptr = vl_ptr -> delta[ret][obsv_len-1];
+
+  return (NULL);
+
 }
 
-int   max_idx( long double* ptr, int cnt ) {
+int max_idx( long double* ptr, int cnt ) {
+
+  int idx = 0;
+  for( int i = 0; i < cnt; ++i ){
+    if( ptr[i] >= ptr[idx] )
+      idx = i;
+  }
+  return idx;
 }
 
 void Viterbi_OP( FILE* fp, int arr, Parameter_test* pt_ptr ){

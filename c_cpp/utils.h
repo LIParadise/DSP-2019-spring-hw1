@@ -36,8 +36,8 @@ typedef struct Greek_letters{
 } Greek_letters;
 
 typedef struct{
-  double ** delta;
-  int    ** phi  ; 
+  long double ** delta;
+  int         ** phi  ; 
 } Viterbi_letters;
 
 
@@ -69,12 +69,17 @@ typedef struct{
   int     model_cnt     ;
 
   int     data_vec_cnt  ;
+
+  int     line_idx      ;
 } Parameter_test;
 
 typedef struct {
   int               model_idx;
   Parameter_test*   ptr;
-  Viterbi_letters*  let_ptr
+  Viterbi_letters*  let_ptr;
+  HMM*              hmm_ptr;
+  long double*      prob_ptr;
+
 } Viterbi_wrapper;
 
 typedef struct{
