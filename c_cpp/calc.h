@@ -192,11 +192,12 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
   for( int i = 0; i < obsv_len-1; ++i ){
     for( int j = 0; j < stt_cnt; ++j ){
 
-      gr_ptr -> gamma[j][i] += 
+      long double tmp = 
         (gr_ptr -> alpha[j][i]) *
-        (gr_ptr -> beta [j][i]) *
-        obsv_len;
-      gr_ptr -> gamma[j][i] /= gr_ptr -> prob;
+        (gr_ptr -> beta [j][i]) /
+        (gr_ptr -> prob)        *
+        obsv_len                ;
+      gr_ptr -> gamma[j][i] += tmp;
 
       gr_ptr -> gamma_arr
         [ pr_ptr -> model_data[line_idx][i] - 'A' ][j][i] +=
@@ -207,11 +208,12 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
 
   for( int j = 0; j < stt_cnt; ++j ){
 
-    gr_ptr -> gamma_end[j] +=
+    long double tmp = 
       (gr_ptr -> alpha[j][obsv_len-1]) *
-      (gr_ptr -> beta [j][obsv_len-1]) *
-      obsv_len;
-    gr_ptr -> gamma_end[j] /= gr_ptr -> prob;
+      (gr_ptr -> beta [j][obsv_len-1]) /
+      (gr_ptr -> prob)                 *
+      obsv_len                         ;
+    gr_ptr -> gamma_end[j] += tmp;
 
     gr_ptr -> gam_end_arr
       [pr_ptr -> model_data[line_idx][obsv_len-1]-'A'][j] +=
@@ -242,15 +244,16 @@ static void* accm_epsilon ( void* ptr /* (Data_wrapper*) type */ ){
 
         /* note the (obsv_len-1) here*/
 
-        gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] +=
-          gr_ptr  -> alpha[ stt_idx_1 ][ i ] *
-          gr_ptr  -> beta [ stt_idx_2 ][ i+1 ] *
-          hmm_ptr -> transition[ stt_idx_1 ][ stt_idx_2 ] *
+        long double tmp =
+          gr_ptr  -> alpha[ stt_idx_1 ][ i ]                     *
+          gr_ptr  -> beta [ stt_idx_2 ][ i+1 ]                   *
+          hmm_ptr -> transition[ stt_idx_1 ][ stt_idx_2 ]        /
+          gr_ptr  -> prob                                        *
           hmm_ptr -> observation
           [(pr_ptr->model_data[line_idx][i+1]-'A')][ stt_idx_2 ] *
-          obsv_len ;
+          obsv_len                                               ;
 
-        gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] /= gr_ptr -> prob;
+        gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] += tmp;
 
       }
     }
@@ -285,7 +288,7 @@ static void* calc_pi ( void* ptr /* type (Data_wrapper*) ) */ ){
   Greek_letters   * gr_ptr    = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr   = dw_ptr -> hmm_ptr;
   int               stt_cnt   = dw_ptr -> train_ptr -> stt_cnt;
-  int               line_cnt = dw_ptr -> train_ptr -> line_cnt;
+  int               line_cnt  = dw_ptr -> train_ptr -> line_cnt;
 
   for( int i = 0; i < stt_cnt; ++i ){
     long double sum = 0.0;
@@ -293,8 +296,10 @@ static void* calc_pi ( void* ptr /* type (Data_wrapper*) ) */ ){
       sum += gr_ptr -> gamma[i][j];
     }
     sum += gr_ptr -> gamma_end[i];
-    sum /= line_cnt;
     sum /= pr_ptr -> total_len;
+    sum /= ( 
+        (pr_ptr -> total_len) /
+        ((long double)(pr_ptr -> line_cnt)) );
     hmm_ptr -> initial[i] = sum;
   }
 
