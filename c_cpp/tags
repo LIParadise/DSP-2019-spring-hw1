@@ -62,11 +62,13 @@ model_init	utils.h	/^  char*   model_init;  \/\/ init model filename$/;"	m	struc
 model_list	utils.h	/^  char*   model_list;  \/\/ list of HMMs to run Viterbi.$/;"	m	struct:__anon3
 model_name	hmm.h	/^   char *model_name;$/;"	m	struct:__anon1
 model_train	utils.h	/^  char*   model_train; \/\/ train data filename$/;"	m	struct:__anon2
+normalize_model	calc.h	/^static void normalize_model ( Data_wrapper* dw_ptr ){$/;"	f
 observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct:__anon1
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
 open_or_die	hmm.h	/^static FILE *open_or_die( const char *filename, const char *ht )$/;"	f
 prep_params	utils.h	/^static void prep_params($/;"	f
 prob	utils.h	/^  long double prob     ;  \/\/ prob( O | lambda );$/;"	m	struct:Greek_letters
+reset_tmp_data	calc.h	/^static void reset_tmp_data( Data_wrapper* dw_ptr ){$/;"	f
 results	utils.h	/^  char*   results;    \/\/ results$/;"	m	struct:__anon3
 state_num	hmm.h	/^   int state_num;					\/\/number of state$/;"	m	struct:__anon1
 stt_cnt	utils.h	/^  int     stt_cnt;     \/\/ how many # of hidden states in the HMM.$/;"	m	struct:__anon2

@@ -379,5 +379,112 @@ static void calc_model(
 
 }
 
+static void normalize_model ( Data_wrapper* dw_ptr ){
+  // normalize the hmm.
+  HMM*               hmm_ptr = dw_ptr -> hmm_ptr;
+  Parameter_train*   pr_ptr  = dw_ptr -> train_ptr;
+
+
+  // normalize HMM.initial
+  double sum = 0.0;
+  for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
+    sum += hmm_ptr -> initial[i];
+  }
+  if( fabs(sum-1.0) >= 0.000001 ){
+    int max_idx = 0;
+    for( int i = 1; i < pr_ptr -> stt_cnt; ++i ){
+      if( hmm_ptr -> initial[i] >= hmm_ptr -> initial[max_idx] )
+        max_idx = i;
+    }
+    hmm_ptr -> initial[max_idx] -= sum-1;
+  }
+
+  // normalize HMM.transition;
+  for( int row_idx = 0; row_idx < pr_ptr -> stt_cnt; ++ row_idx ){
+
+    sum = 0.0;
+    for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++col_idx){
+      sum += hmm_ptr -> transition[row_idx][col_idx];
+    }
+    if( fabs(sum-1.0) >= 0.000001 ){
+      int max_idx = 0;
+      for( int i = 1; i < pr_ptr -> stt_cnt; ++i ){
+        if( hmm_ptr -> transition[row_idx][i] >=
+            hmm_ptr -> transition[row_idx][max_idx] ){
+          max_idx = i;
+        }
+      }
+      hmm_ptr -> transition[row_idx][max_idx] -= sum-1;
+    }
+    
+  }
+
+  // normalize HMM.observation;
+  for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++ col_idx ){
+
+    sum = 0.0;
+    for( int row_idx = 0; row_idx < pr_ptr -> emt_cnt; ++row_idx){
+      sum += hmm_ptr -> observation[row_idx][col_idx];
+    }
+    if( fabs(sum-1.0) >= 0.000001 ){
+      int max_idx = 0;
+      for( int i = 1; i < pr_ptr -> emt_cnt; ++i ){
+        if( hmm_ptr -> observation[i][col_idx] >=
+            hmm_ptr -> observation[max_idx][col_idx] ){
+          max_idx = i;
+        }
+      }
+      hmm_ptr -> observation[max_idx][col_idx] -= sum-1;
+    }
+    
+  }
+}
+
+static void reset_tmp_data( Data_wrapper* dw_ptr ){
+  Greek_letters*    gr_ptr   =   dw_ptr -> gr_ptr;
+  Parameter_train*  pr_ptr   =   dw_ptr -> train_ptr;
+
+  gr_ptr -> cur_obsv_len = 0;
+  gr_ptr -> prob         = 0.0;
+  pr_ptr -> total_len    = 0;
+
+  // Greek_letters: alpha, beta, gamma, gamma_end
+  for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
+    memset( gr_ptr -> alpha[i], '\0', MAX_LINE * sizeof( double ) );
+    memset( gr_ptr -> beta [i], '\0', MAX_LINE * sizeof( double ) );
+    memset( gr_ptr -> gamma[i], '\0', MAX_LINE * sizeof( double ) );
+    gr_ptr -> gamma_end[i] = 0.0;
+  }
+
+  // Greek_letters: gam_end_arr
+  for( int i = 0; i < pr_ptr -> emt_cnt; ++i ){
+    memset( 
+        gr_ptr -> gam_end_arr[i],
+        '\0',
+        pr_ptr -> stt_cnt * sizeof( double ) );
+  }
+
+  // Greek_letters: gamma_arr
+  for( int i = 0; i < pr_ptr -> emt_cnt; ++i ){
+    for( int j = 0; j < pr_ptr -> stt_cnt; ++j ){
+      memset( 
+          gr_ptr -> gamma_arr[i][j],
+          '\0', 
+          MAX_LINE * sizeof( double ) );
+    }
+  }
+
+  // Greek_letters: epsilon
+  for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
+    for( int j = 0; j < pr_ptr -> stt_cnt; ++j ){
+      memset( 
+          gr_ptr -> epsilon[i][j], 
+          '\0', 
+          MAX_LINE*sizeof(double) );
+    }
+  }
+
+}
+
 
 #endif // CALC_HEADER_

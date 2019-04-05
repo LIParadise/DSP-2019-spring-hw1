@@ -30,27 +30,36 @@ int main( int argc, char** argv )
 
   /* main code */
 
-  for( int i = 0; i < train.line_cnt; ++i ){
-    dw.cur_line_idx = i;
-    fill_alpha_and_beta( &thrd_1, &thrd_2, &dw );
-    pthread_create( &thrd_1  , NULL, accm_gamma  , &dw );
-    pthread_create( &thrd_2  , NULL, accm_epsilon, &dw );
-    pthread_join  ( thrd_1, NULL );
-    pthread_join  ( thrd_2, NULL );
+  for( int iteration = 0; 
+      iteration < train.it_cnt;
+      ++iteration ){
+
+    normalize_model( &dw );
+
+    for( int i = 0; i < train.line_cnt; ++i ){
+      dw.cur_line_idx = i;
+      fill_alpha_and_beta( &thrd_1, &thrd_2, &dw );
+      pthread_create( &thrd_1  , NULL, accm_gamma  , &dw );
+      pthread_create( &thrd_2  , NULL, accm_epsilon, &dw );
+      pthread_join  ( thrd_1, NULL );
+      pthread_join  ( thrd_2, NULL );
+    }
+
+    calc_model( &thrd_1, &thrd_2, &thrd_3, &dw );
+
+    reset_tmp_data ( &dw );
   }
-
-  calc_model( &thrd_1, &thrd_2, &thrd_3, &dw );
-
+  normalize_model( &dw );
 
   /* main code end */
 
 
   /* output */
-	dump_models( &hmm, 1 );
+  dump_models( &hmm, 1 );
   FILE* fp = open_or_die( train.model_OP , "w");
   dumpHMM( fp, &hmm );
   discard( &train, PARAMETER_TRAIN );
   fclose( fp );
 
-	return 0;
+  return 0;
 }
