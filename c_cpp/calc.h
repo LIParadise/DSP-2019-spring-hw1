@@ -200,8 +200,7 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
       gr_ptr -> gamma[j][i] += tmp;
 
       gr_ptr -> gamma_arr
-        [ pr_ptr -> model_data[line_idx][i] - 'A' ][j][i] +=
-        gr_ptr -> gamma[j][i];
+        [ pr_ptr -> model_data[line_idx][i] - 'A' ][j][i] += tmp;
 
     }
   }
@@ -216,8 +215,7 @@ static void* accm_gamma ( void* ptr /* (Data_wrapper*) type */ ){
     gr_ptr -> gamma_end[j] += tmp;
 
     gr_ptr -> gam_end_arr
-      [pr_ptr -> model_data[line_idx][obsv_len-1]-'A'][j] +=
-      gr_ptr -> gamma_end[j];
+      [pr_ptr -> model_data[line_idx][obsv_len-1]-'A'][j] += tmp;
   }
 
   return NULL;
