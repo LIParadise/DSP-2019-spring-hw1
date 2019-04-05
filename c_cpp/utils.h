@@ -30,6 +30,7 @@ typedef struct Greek_letters{
   //                      // value for each (observation index)
   //                      // while accumulating gamma and epsilon.
   //
+  int     cur_obsv_len ;
 
 
 } Greek_letters;
@@ -40,6 +41,8 @@ typedef struct{
   int     stt_cnt;     // how many # of hidden states in the HMM.
   int     emt_cnt;     // how many # of possible emissions.
   //                      (since it's HMM).
+  size_t  total_len;   // total observed length 
+  //                   // for normalizing gamma
 
   char*   model_init;  // init model filename
   char*   model_train; // train data filename
@@ -80,6 +83,7 @@ static void prep_params(
     // shall be called only after HMM is loaded.
     pr_ptr -> stt_cnt = ((Data_wrapper*)ptr) -> hmm_ptr -> state_num;
     pr_ptr -> emt_cnt = ((Data_wrapper*)ptr) -> hmm_ptr -> observ_num;
+    pr_ptr -> total_len = 0;
 
     // get line_cnt;
     FILE* fp  = open_or_die( pr_ptr -> model_train , "r" );

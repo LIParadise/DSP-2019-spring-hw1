@@ -33,6 +33,7 @@ calc_B	calc.h	/^static void* calc_B  ( void* ptr \/* type (Data_wrapper*) ) *\/ 
 calc_model	calc.h	/^static void calc_model($/;"	f
 calc_pi	calc.h	/^static void* calc_pi ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
 cur_line_idx	utils.h	/^  int              cur_line_idx;  \/\/ current line index$/;"	m	struct:__anon4
+cur_obsv_len	utils.h	/^  int     cur_obsv_len ;$/;"	m	struct:Greek_letters
 discard	utils.h	/^static void discard( void* ptr , Pram_type type){$/;"	f
 dumpHMM	hmm.h	/^static void dumpHMM( FILE *fp, HMM *hmm )$/;"	f
 dump_models	hmm.h	/^static void dump_models( HMM *hmm, const int num )$/;"	f
@@ -71,5 +72,6 @@ state_num	hmm.h	/^   int state_num;					\/\/number of state$/;"	m	struct:__anon1
 stt_cnt	utils.h	/^  int     stt_cnt;     \/\/ how many # of hidden states in the HMM.$/;"	m	struct:__anon2
 test_data	utils.h	/^  char*   test_data;;  \/\/ input sequence of char (39-dim MFCCs)$/;"	m	struct:__anon3
 test_ptr	utils.h	/^  Parameter_train* test_ptr;$/;"	m	struct:__anon4
+total_len	utils.h	/^  size_t  total_len;   \/\/ total observed length $/;"	m	struct:__anon2
 train_ptr	utils.h	/^  Parameter_train* train_ptr;$/;"	m	struct:__anon4
 transition	hmm.h	/^   double transition[MAX_STATE][MAX_STATE];	\/\/transition prob.$/;"	m	struct:__anon1
