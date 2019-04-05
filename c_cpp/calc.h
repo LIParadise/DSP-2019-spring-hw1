@@ -76,7 +76,7 @@ static void* fill_alpha ( void* ptr /* (Data_wrapper*) type */ ){
   Parameter_train * pr_ptr   = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr   = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr  = dw_ptr -> hmm_ptr;
-  int               line_cnt = dw_ptr -> cur_line_idx;
+  int               line_idx = dw_ptr -> cur_line_idx;
   int               stt_cnt  = dw_ptr -> train_ptr -> stt_cnt;
 
   // reset the matrix
@@ -88,26 +88,31 @@ static void* fill_alpha ( void* ptr /* (Data_wrapper*) type */ ){
   for( int state_idx = 0; state_idx < stt_cnt; ++state_idx ){
     gr_ptr -> alpha[state_idx][0] = 
       (hmm_ptr -> initial[state_idx]) * ( hmm_ptr -> 
-          observation[(pr_ptr->model_data[line_cnt][0]-'A')][state_idx] );
+          observation[(pr_ptr->model_data[line_idx][0]-'A')][state_idx] );
   }
 
   // recursive col. vector
   for( int observ_idx = 1; 
-      (pr_ptr -> model_data[line_cnt][observ_idx] != '\0')&&
+      (pr_ptr -> model_data[line_idx][observ_idx] != '\0')&&
       (observ_idx < MAX_LINE);
       ++observ_idx ){
 
+    // calculating alpha[ stt_idx_1 ][ observ_idx ]
+    // sum all stt_idx_2 which we go from stt_idx_2 to stt_idx_1
 
     for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++stt_idx_1 ){
+
       gr_ptr -> alpha[stt_idx_1][observ_idx] = 0.0;
+
       for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++stt_idx_2 ){
         gr_ptr -> alpha[stt_idx_1][observ_idx] +=
           gr_ptr  -> alpha[stt_idx_2][observ_idx-1] *
           hmm_ptr -> transition[ stt_idx_2 ][ stt_idx_1 ];
       }
+
       gr_ptr -> alpha[stt_idx_1][observ_idx] *= 
         hmm_ptr -> observation
-        [pr_ptr->model_data[line_cnt][observ_idx]-'A'][stt_idx_1];
+        [pr_ptr->model_data[line_idx][observ_idx]-'A'][stt_idx_1];
     }
 
   }
