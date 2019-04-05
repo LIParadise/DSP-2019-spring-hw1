@@ -126,10 +126,10 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
   Parameter_train * pr_ptr   = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr   = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr  = dw_ptr -> hmm_ptr;
-  int               line_cnt = dw_ptr -> cur_line_idx;
+  int               line_idx = dw_ptr -> cur_line_idx;
   int               stt_cnt  = dw_ptr -> train_ptr -> stt_cnt;
   int               obsv_len = 0;
-  while( pr_ptr -> model_data[line_cnt][obsv_len] != '\0' ){
+  while( pr_ptr -> model_data[line_idx][obsv_len] != '\0' ){
     ++ obsv_len ;
   }
 
@@ -148,6 +148,8 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
       observ_idx >= 0;
       --observ_idx ){
 
+    // beta[stt_idx_2][observ_idx+1] already done for all stt_idx_2
+    // calculating ( beta[stt_idx_1][observ_idx] ) from these info
 
     for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++stt_idx_1 ){
 
@@ -158,7 +160,7 @@ static void* fill_beta ( void* ptr /* (Data_wrapper*) type */ ){
         gr_ptr -> beta[ stt_idx_1][observ_idx] +=
           hmm_ptr->transition[ stt_idx_1 ][ stt_idx_2 ] *
           hmm_ptr->observation
-          [pr_ptr->model_data[line_cnt][observ_idx+1]-'A'][stt_idx_2]*
+          [pr_ptr->model_data[line_idx][observ_idx+1]-'A'][stt_idx_2]*
           gr_ptr ->beta[stt_idx_2][observ_idx+1];
 
       }
