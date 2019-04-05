@@ -486,5 +486,13 @@ static void reset_tmp_data( Data_wrapper* dw_ptr ){
 
 }
 
+void* Viterbi( void* ptr /* of type Viterbi_wrapper */ ){
+}
+
+int   max_idx( long double* ptr, int cnt ) {
+}
+
+void Viterbi_OP( FILE* fp, int arr, Parameter_test* pt_ptr ){
+}
 
 #endif // CALC_HEADER_

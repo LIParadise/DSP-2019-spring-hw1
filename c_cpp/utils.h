@@ -36,6 +36,12 @@ typedef struct Greek_letters{
 } Greek_letters;
 
 typedef struct{
+  double ** delta;
+  int    ** phi  ; 
+} Viterbi_letters;
+
+
+typedef struct{
   int     it_cnt;      // iteration count
   int     line_cnt;    // total lines in the "model_train" file
   int     stt_cnt;     // how many # of hidden states in the HMM.
@@ -53,10 +59,23 @@ typedef struct{
 } Parameter_train;
 
 typedef struct{
-  char*   model_list;  // list of HMMs to run Viterbi.
-  char*   test_data;;  // input sequence of char (39-dim MFCCs)
-  char*   results;    // results
+  char*   model_list    ;  // list of HMMs to run Viterbi.
+  char*   test_data     ;  // input sequence of char (39-dim MFCCs)
+  char*   results       ;  // results
+
+  char**  mod_name_list ;
+  char**  data_vec_list ;
+
+  int     model_cnt     ;
+
+  int     data_vec_cnt  ;
 } Parameter_test;
+
+typedef struct {
+  int               model_idx;
+  Parameter_test*   ptr;
+  Viterbi_letters*  let_ptr
+} Viterbi_wrapper;
 
 typedef struct{
   Parameter_train* train_ptr;
@@ -72,7 +91,7 @@ typedef enum{
 } Pram_type;
 
 static void prep_params(
-    void* ptr, // pointer of type Data_wrapper
+    void* ptr, // pointer of type Data_wrapper or Parameter_test
     Pram_type type ){
 
   if( type == PARAMETER_TRAIN ){
@@ -120,7 +139,80 @@ static void prep_params(
 
     fclose( fp );
 
+  }else if( type == PARAMETER_TEST ){
+
+    Parameter_test * pt_ptr = ((Parameter_test*)ptr) ;
+
+    // get line_cnt;
+    FILE* fp  = open_or_die( pt_ptr -> model_list, "r" );
+    char  buf   [MAX_LINE];
+    pt_ptr -> model_cnt = 0;
+    while (fgets(buf, MAX_LINE, fp) != NULL)
+    {
+      pt_ptr -> model_cnt++;
+    }
+    rewind(fp);
+    pt_ptr -> mod_name_list = (char**)malloc(
+        sizeof( char* ) * pt_ptr -> model_cnt );
+    for( int i = 0; i < pt_ptr -> model_cnt; ++i ){
+      pt_ptr -> mod_name_list[i] = (char*)malloc(
+          sizeof(char) * MAX_LINE );
+    }
+
+    for( int i = 0; i < pt_ptr->model_cnt; ++i ){
+
+      fgets(pt_ptr->mod_name_list[i], MAX_LINE, fp) ;
+
+      // sanitize the change line symbols
+      char *pos, *min_pos;
+      min_pos = NULL;
+      if ((pos=strchr(pt_ptr -> mod_name_list[i], '\n')) != NULL)
+        min_pos = pos;
+      if ((pos=strchr(pt_ptr -> mod_name_list[i], '\r')) != NULL)
+        if( pos < min_pos )
+          min_pos = pos;
+      if( min_pos != NULL )
+        memset( min_pos, '\0', 
+            MAX_LINE - ( min_pos - pt_ptr -> mod_name_list[i]) );
+    }
+
+    fclose( fp );
+
+    // get data_vec_cnt;
+    fp =  open_or_die( pt_ptr -> test_data, "r" );
+    pt_ptr -> data_vec_cnt = 0;
+    while (fgets(buf, MAX_LINE, fp) != NULL)
+    {
+      pt_ptr -> data_vec_cnt++;
+    }
+    rewind(fp);
+    pt_ptr -> data_vec_list = (char**)malloc(
+        sizeof( char* ) * pt_ptr -> data_vec_cnt );
+    for( int i = 0; i < pt_ptr -> data_vec_cnt; ++i ){
+      pt_ptr -> data_vec_list[i] = (char*)malloc(
+          sizeof(char) * MAX_LINE );
+    }
+
+    for( int i = 0; i < pt_ptr->data_vec_cnt; ++i ){
+
+      fgets(pt_ptr->data_vec_list[i], MAX_LINE, fp) ;
+
+      // sanitize the change line symbols
+      char *pos, *min_pos;
+      min_pos = NULL;
+      if ((pos=strchr(pt_ptr -> data_vec_list[i], '\n')) != NULL)
+        min_pos = pos;
+      if ((pos=strchr(pt_ptr -> data_vec_list[i], '\r')) != NULL)
+        if( pos < min_pos )
+          min_pos = pos;
+      if( min_pos != NULL )
+        memset( min_pos, '\0', 
+            MAX_LINE - ( min_pos - pt_ptr -> data_vec_list[i]) );
+    }
+    fclose( fp );
+
   }
+
 }
 
 static void load_params( 
