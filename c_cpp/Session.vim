@@ -196,11 +196,11 @@ silent! normal! zE
 normal! zo
 124
 normal! zo
-let s:l = 230 - ((3 * winheight(0) + 19) / 39)
+let s:l = 268 - ((23 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-230
+268
 normal! 0
 wincmd w
 argglobal
@@ -460,12 +460,12 @@ silent! normal! zE
 normal! zo
 119
 normal! zo
-let s:l = 60 - ((7 * winheight(0) + 9) / 19)
+let s:l = 48 - ((5 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-60
-normal! 013|
+48
+normal! 015|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 76 + 73) / 146)
 exe '2resize ' . ((&lines * 19 + 21) / 42)
@@ -745,11 +745,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 271 - ((11 * winheight(0) + 9) / 19)
+let s:l = 275 - ((11 * winheight(0) + 9) / 19)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-271
+275
 normal! 07|
 wincmd w
 argglobal

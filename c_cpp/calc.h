@@ -231,31 +231,35 @@ static void* accm_epsilon ( void* ptr /* (Data_wrapper*) type */ ){
 
   // note:
   // this function is supposed to calc. "epsilon"
-  // but WITHOUT the normalization
-  // that is, we need to normalize the PI array later
-
+  // WITH the normalization
+  // that is, we DON'T need to normalize the PI array later
 
   Data_wrapper    * dw_ptr     = ((Data_wrapper*)(ptr));
   Parameter_train * pr_ptr     = dw_ptr -> train_ptr;
   Greek_letters   * gr_ptr     = dw_ptr -> gr_ptr;
   HMM             * hmm_ptr    = dw_ptr -> hmm_ptr;
-  int               line_cnt   = dw_ptr -> cur_line_idx;
+  int               line_idx   = dw_ptr -> cur_line_idx;
   int               stt_cnt    = dw_ptr -> train_ptr -> stt_cnt;
-  int               obsv_len = 0;
-  while( pr_ptr -> model_data[line_cnt][obsv_len] != '\0' ){
+  int               obsv_len   = 0;
+  while( pr_ptr -> model_data[line_idx][obsv_len] != '\0' ){
     ++ obsv_len ;
   }
 
   for( int stt_idx_1 = 0; stt_idx_1 < stt_cnt; ++ stt_idx_1 ){
     for( int stt_idx_2 = 0; stt_idx_2 < stt_cnt; ++ stt_idx_2 ){
       for( int i = 0; i < obsv_len-1; ++i ){
+
         /* note the (obsv_len-1) here*/
+
         gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] +=
           gr_ptr  -> alpha[ stt_idx_1 ][ i ] *
-          gr_ptr  -> beta [ stt_idx_2 ][ i ] *
+          gr_ptr  -> beta [ stt_idx_2 ][ i+1 ] *
           hmm_ptr -> transition[ stt_idx_1 ][ stt_idx_2 ] *
           hmm_ptr -> observation
-          [(pr_ptr->model_data[line_cnt][0]-'A')][ stt_idx_2 ];
+          [(pr_ptr->model_data[line_idx][i+1]-'A')][ stt_idx_2 ];
+
+        gr_ptr -> epsilon[stt_idx_1][stt_idx_2][i] /= gr_ptr -> prob;
+
       }
     }
   }
