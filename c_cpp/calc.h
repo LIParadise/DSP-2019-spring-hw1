@@ -421,7 +421,7 @@ static void normalize_model ( Data_wrapper* dw_ptr ){
       }
       hmm_ptr -> transition[row_idx][max_idx] -= sum-1;
     }
-    
+
   }
 
   // normalize HMM.observation;
@@ -441,7 +441,7 @@ static void normalize_model ( Data_wrapper* dw_ptr ){
       }
       hmm_ptr -> observation[max_idx][col_idx] -= sum-1;
     }
-    
+
   }
 }
 
@@ -492,6 +492,7 @@ static void reset_tmp_data( Data_wrapper* dw_ptr ){
 }
 
 void* Viterbi( void* ptr /* of type Viterbi_wrapper */ ){
+
   Viterbi_wrapper* vw_ptr     = (Viterbi_wrapper*)(ptr);
   int              model_idx  = vw_ptr -> model_idx;
   Parameter_test*  pt_ptr     = vw_ptr -> ptr;
@@ -500,6 +501,7 @@ void* Viterbi( void* ptr /* of type Viterbi_wrapper */ ){
   HMM*             hmm_ptr    = vw_ptr -> hmm_ptr;
   int              obsv_len   = 0;
   long double*     prob_ptr   = vw_ptr -> prob_ptr;
+
   while( pt_ptr -> data_vec_list[line_idx][obsv_len] != '\0' )
     ++ obsv_len;
 
@@ -530,7 +532,7 @@ void* Viterbi( void* ptr /* of type Viterbi_wrapper */ ){
         if( (
               vl_ptr -> delta[i][t-1] *
               hmm_ptr -> transition[i][stt_idx] 
-              ) >= tmp ){
+            ) >= tmp ){
           tmp = vl_ptr -> delta[i][t-1] *
             hmm_ptr -> transition[i][stt_idx];
           j = i;
@@ -561,7 +563,7 @@ void* Viterbi( void* ptr /* of type Viterbi_wrapper */ ){
 
 }
 
-int max_idx( long double* ptr, int cnt ) {
+int max_idx_f( long double* ptr, int cnt ) {
 
   int idx = 0;
   for( int i = 0; i < cnt; ++i ){
@@ -579,7 +581,7 @@ void Viterbi_OP( FILE* fp,
   int    data_vec_cnt = pt_ptr -> data_vec_cnt;
   for( int i = 0; i < data_vec_cnt; ++i ){
     fprintf( fp, pt_ptr -> mod_name_list[ arr[i] ] );
-    fprintf( fp, "\t%.5g\n", results[i] );
+    fprintf( fp, "\t%.5Le\n", results[i] );
   }
 
 }

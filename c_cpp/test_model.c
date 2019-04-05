@@ -9,8 +9,8 @@ int main( int argc, char** argv )
 {
   /* basic argc sanitation */
   if( argc != 4 ){
-    printf( "argument count not correct.\n" );
-    printf( "usage: test modellist.txt testing_data.txt result.txt\n" );
+    printf("argument count not correct.\n" );
+    printf("use: test modellist.txt testing_data.txt result.txt\n");
     exit(1);
   }
 
@@ -18,15 +18,15 @@ int main( int argc, char** argv )
   Parameter_test  test;
   load_params( &test , argv, PARAMETER_TEST );
   prep_params( &test , PARAMETER_TEST );
-  
   HMM             hmm_list  [ test.model_cnt    ];
+  load_models( test.model_list, hmm_list, test.model_cnt );
+
   pthread_t       thrd_list [ test.model_cnt    ];
   long double     prob_rnk  [ test.model_cnt    ];
   Viterbi_wrapper wrap_arr  [ test.model_cnt    ];
   Viterbi_letters lett_arr  [ test.model_cnt    ];
-  int             belong    [ test.data_vec_cnt ];
+  int             BELONG    [ test.data_vec_cnt ];
   long double     results   [ test.data_vec_cnt ];
-  load_models( test.model_list, hmm_list, test.model_cnt );
 
   for( int i = 0; i < test.model_cnt; ++i ){
 
@@ -50,15 +50,14 @@ int main( int argc, char** argv )
     wrap_arr[i].model_idx = i;
     wrap_arr[i].let_ptr   = lett_arr+i;
     wrap_arr[i].hmm_ptr   = hmm_list+i;
+    wrap_arr[i].prob_ptr  = prob_rnk + i;
+
   }
 
   /* main code */
   for( int l = 0; l < test.data_vec_cnt; ++l ){
 
-    for( int i = 0; i < test.model_cnt; ++i ){
-      wrap_arr[i].model_idx = l ;
-      wrap_arr[i].prob_ptr  = prob_rnk + i;
-    }
+    test.line_idx = l;
 
     for( int i = 0; i < test.model_cnt; ++i ){
       pthread_create( thrd_list+i, 
@@ -71,8 +70,8 @@ int main( int argc, char** argv )
       pthread_join( thrd_list[i], NULL );
     }
 
-    belong [l] = max_idx( prob_rnk, test.model_cnt );
-    results[l] = prob_rnk[ belong[l] ];
+    BELONG [l] = max_idx_f( prob_rnk, test.model_cnt );
+    results[l] = prob_rnk[ BELONG[l] ];
   }
 
   /* main code end */
@@ -80,7 +79,7 @@ int main( int argc, char** argv )
 
   /* output */
   FILE* fp = open_or_die( test.results , "w");
-  Viterbi_OP( fp, belong, results, &test );
+  Viterbi_OP( fp, BELONG, results, &test );
   fclose( fp );
 
   return 0;
