@@ -76,11 +76,32 @@ int main( int argc, char** argv )
 
   /* main code end */
 
-
   /* output */
   FILE* fp = open_or_die( test.results , "w");
   Viterbi_OP( fp, BELONG, results, &test );
   fclose( fp );
+  /* output end */
+
+  /* garbage clean up*/
+  for( int i = 0; i < test.model_cnt; ++i ){
+
+    for( int j = 0; j < hmm_list[i].state_num; ++j ){
+      free( lett_arr[i].delta[j] );
+      free( lett_arr[i].phi  [j] );
+    }
+    free ( lett_arr[i].delta );
+    free ( lett_arr[i].phi   );
+    lett_arr[i].delta = NULL;
+    lett_arr[i].phi   = NULL;
+    free( hmm_list[i].model_name );
+    hmm_list[i]      .model_name = NULL;
+
+  }
+  discard( &test, PARAMETER_TEST );
+
+  /* garbage clean up end*/
+
+
 
   return 0;
 }

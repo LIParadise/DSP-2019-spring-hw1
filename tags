@@ -6,6 +6,7 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 CALC_HEADER_	calc.h	6;"	d
 Data_wrapper	utils.h	/^} Data_wrapper;$/;"	t	typeref:struct:__anon6
+GREEK_LETTERS	utils.h	/^  GREEK_LETTERS      ,$/;"	e	enum:__anon7
 Greek_letters	utils.h	/^typedef struct Greek_letters{$/;"	s
 Greek_letters	utils.h	/^} Greek_letters;$/;"	t	typeref:struct:Greek_letters
 HMM	hmm.h	/^} HMM;$/;"	t	typeref:struct:__anon1
@@ -18,7 +19,7 @@ MAX_SEQ	calc.h	17;"	d
 MAX_SEQ	hmm.h	18;"	d
 MAX_STATE	calc.h	9;"	d
 MAX_STATE	hmm.h	10;"	d
-PARAMETER_TEST	utils.h	/^  PARAMETER_TEST$/;"	e	enum:__anon7
+PARAMETER_TEST	utils.h	/^  PARAMETER_TEST     ,$/;"	e	enum:__anon7
 PARAMETER_TRAIN	utils.h	/^  PARAMETER_TRAIN = 0,$/;"	e	enum:__anon7
 Parameter_test	utils.h	/^} Parameter_test;$/;"	t	typeref:struct:__anon4
 Parameter_train	utils.h	/^} Parameter_train;$/;"	t	typeref:struct:__anon3

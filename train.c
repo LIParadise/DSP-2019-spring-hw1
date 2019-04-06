@@ -54,11 +54,14 @@ int main( int argc, char** argv )
   /* main code end */
 
 
-  /* output */
+  /* output and cleanup */
   dump_models( &hmm, 1 );
   FILE* fp = open_or_die( train.model_OP , "w");
   dumpHMM( fp, &hmm );
+  discard( &dw   , GREEK_LETTERS   );
   discard( &train, PARAMETER_TRAIN );
+  free( hmm.model_name );
+  hmm.model_name = NULL;
   fclose( fp );
 
   return 0;

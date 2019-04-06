@@ -92,7 +92,8 @@ typedef struct{
 
 typedef enum{
   PARAMETER_TRAIN = 0,
-  PARAMETER_TEST
+  PARAMETER_TEST     ,
+  GREEK_LETTERS      ,
 } Pram_type;
 
 static void prep_params(
@@ -282,14 +283,63 @@ static void discard( void* ptr , Pram_type type){
     pr_ptr -> model_data  = NULL;
 
   }else if( type == PARAMETER_TEST ){
-    Parameter_test* pr_ptr = (Parameter_test*)ptr;
-    free( pr_ptr -> model_list );
-    free( pr_ptr -> test_data );
-    free( pr_ptr -> results );
+    Parameter_test* pt_ptr = (Parameter_test*)ptr;
+    free( pt_ptr -> model_list );
+    free( pt_ptr -> test_data );
+    free( pt_ptr -> results );
 
-    pr_ptr -> model_list  = NULL;
-    pr_ptr -> test_data   = NULL;
-    pr_ptr -> results     = NULL;
+    for( int i = 0; i < pt_ptr -> model_cnt; ++ i )
+      free( pt_ptr -> mod_name_list[i] );
+    for( int i = 0; i < pt_ptr -> data_vec_cnt; ++ i )
+      free( pt_ptr -> data_vec_list[i] );
+    free( pt_ptr -> mod_name_list );
+    free( pt_ptr -> data_vec_list );
+
+    pt_ptr -> model_list    = NULL;
+    pt_ptr -> test_data     = NULL;
+    pt_ptr -> results       = NULL;
+    pt_ptr -> mod_name_list = NULL;
+    pt_ptr -> data_vec_list = NULL;
+  }else if( type == GREEK_LETTERS ) {
+    Data_wrapper*  dw_ptr   = (Data_wrapper*)(ptr);
+    Greek_letters* gr_ptr   = dw_ptr -> gr_ptr;
+    int            stt_cnt  = dw_ptr -> hmm_ptr -> state_num;
+    int            emt_cnt  = dw_ptr -> hmm_ptr -> observ_num;
+
+    for( int i = 0; i < stt_cnt; ++i ){
+      free( gr_ptr -> alpha  [i] );
+      free( gr_ptr -> beta   [i] );
+      free( gr_ptr -> gamma  [i] );
+    }
+    free( gr_ptr -> alpha );
+    free( gr_ptr -> beta  );
+    free( gr_ptr -> gamma );
+    free( gr_ptr -> gamma_end );
+    gr_ptr -> gamma_end   = NULL;
+    gr_ptr -> alpha       = NULL;
+    gr_ptr -> beta        = NULL;
+    gr_ptr -> gamma       = NULL;
+
+
+    for( int i = 0; i < stt_cnt; ++i ){
+      for( int j = 0; j < stt_cnt; ++j ){
+        free( gr_ptr -> epsilon[i][j] );
+      }
+      free( gr_ptr -> epsilon[i] );
+    }
+    free( gr_ptr -> epsilon );
+    gr_ptr -> epsilon     = NULL;
+
+    for( int i = 0; i < emt_cnt; ++i ){
+      for( int j = 0; j < stt_cnt; ++j ){
+        free( gr_ptr -> gamma_arr[i][j] );
+      }
+      free( gr_ptr -> gam_end_arr[i] );
+      free( gr_ptr -> gamma_arr  [i] );
+    }
+    gr_ptr -> gam_end_arr = NULL;
+    gr_ptr -> gamma_arr   = NULL;
+
   }else {}
 }
 
