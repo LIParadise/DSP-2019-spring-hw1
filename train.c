@@ -2,8 +2,47 @@
 #include "utils.h"
 #include "calc.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include <pthread.h>
+
+static void myloadHMM( HMM *hmm, const char *filename )
+{
+   int i, j;
+   FILE *fp = open_or_die( filename, "r");
+
+   hmm->model_name = (char *)malloc( sizeof(char) * (strlen( filename)+1));
+   strcpy( hmm->model_name, filename );
+
+   char token[MAX_LINE] = "";
+   while( fscanf( fp, "%s", token ) > 0 )
+   {
+      if( token[0] == '\0' || token[0] == '\n' ) continue;
+
+      if( strcmp( token, "initial:" ) == 0 ){
+         fscanf(fp, "%d", &hmm->state_num );
+
+         for( i = 0 ; i < hmm->state_num ; i++ )
+            fscanf(fp, "%lf", &( hmm->initial[i] ) );
+      }
+      else if( strcmp( token, "transition:" ) == 0 ){
+         fscanf(fp, "%d", &hmm->state_num );
+
+         for( i = 0 ; i < hmm->state_num ; i++ )
+            for( j = 0 ; j < hmm->state_num ; j++ )
+               fscanf(fp, "%lf", &( hmm->transition[i][j] ));
+      }
+      else if( strcmp( token, "observation:" ) == 0 ){
+         fscanf(fp, "%d", &hmm->observ_num );
+
+         for( i = 0 ; i < hmm->observ_num ; i++ )
+            for( j = 0 ; j < hmm->state_num ; j++ )
+               fscanf(fp, "%lf", &( hmm->observation[i][j]) );
+      }
+   }
+
+   fclose( fp );
+}
 
 int main( int argc, char** argv )
 {
@@ -24,7 +63,7 @@ int main( int argc, char** argv )
   dw.gr_ptr       = &gr;
   dw.hmm_ptr      = &hmm;
   load_params( &train, argv, PARAMETER_TRAIN );
-  loadHMM    ( &hmm, train.model_init );
+  myloadHMM  ( &hmm, train.model_init );
   prep_params( &dw, PARAMETER_TRAIN );
   init_greek ( &dw );
 

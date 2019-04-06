@@ -2,8 +2,65 @@
 #include "utils.h"
 #include "calc.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include <pthread.h>
+
+static void myloadHMM( HMM *hmm, const char *filename )
+{
+   int i, j;
+   FILE *fp = open_or_die( filename, "r");
+
+   hmm->model_name = (char *)malloc( sizeof(char) * (strlen( filename)+1));
+   strcpy( hmm->model_name, filename );
+
+   char token[MAX_LINE] = "";
+   while( fscanf( fp, "%s", token ) > 0 )
+   {
+      if( token[0] == '\0' || token[0] == '\n' ) continue;
+
+      if( strcmp( token, "initial:" ) == 0 ){
+         fscanf(fp, "%d", &hmm->state_num );
+
+         for( i = 0 ; i < hmm->state_num ; i++ )
+            fscanf(fp, "%lf", &( hmm->initial[i] ) );
+      }
+      else if( strcmp( token, "transition:" ) == 0 ){
+         fscanf(fp, "%d", &hmm->state_num );
+
+         for( i = 0 ; i < hmm->state_num ; i++ )
+            for( j = 0 ; j < hmm->state_num ; j++ )
+               fscanf(fp, "%lf", &( hmm->transition[i][j] ));
+      }
+      else if( strcmp( token, "observation:" ) == 0 ){
+         fscanf(fp, "%d", &hmm->observ_num );
+
+         for( i = 0 ; i < hmm->observ_num ; i++ )
+            for( j = 0 ; j < hmm->state_num ; j++ )
+               fscanf(fp, "%lf", &( hmm->observation[i][j]) );
+      }
+   }
+   fclose(fp);
+}
+
+static int myload_models( const char *listname, HMM *hmm, const int max_num )
+{
+   FILE *fp = open_or_die( listname, "r" );
+
+   int count = 0;
+   char filename[MAX_LINE] = "";
+   while( fscanf(fp, "%s", filename) == 1 ){
+      myloadHMM( &hmm[count], filename );
+      count ++;
+
+      if( count > max_num ){
+         return count;
+      }
+   }
+   fclose(fp);
+
+   return count;
+}
 
 int main( int argc, char** argv )
 {
@@ -19,7 +76,7 @@ int main( int argc, char** argv )
   load_params( &test , argv, PARAMETER_TEST );
   prep_params( &test , PARAMETER_TEST );
   HMM             hmm_list  [ test.model_cnt    ];
-  load_models( test.model_list, hmm_list, test.model_cnt );
+  myload_models( test.model_list, hmm_list, test.model_cnt );
 
   pthread_t       thrd_list [ test.model_cnt    ];
   long double     prob_rnk  [ test.model_cnt    ];

@@ -337,6 +337,8 @@ static void discard( void* ptr , Pram_type type){
       free( gr_ptr -> gam_end_arr[i] );
       free( gr_ptr -> gamma_arr  [i] );
     }
+    free( gr_ptr -> gam_end_arr );
+    free( gr_ptr -> gamma_arr   );
     gr_ptr -> gam_end_arr = NULL;
     gr_ptr -> gamma_arr   = NULL;
 

@@ -84,6 +84,9 @@ model_init	utils.h	/^  char*   model_init;  \/\/ init model filename$/;"	m	struc
 model_list	utils.h	/^  char*   model_list    ;  \/\/ list of HMMs to run Viterbi.$/;"	m	struct:__anon4
 model_name	hmm.h	/^   char *model_name;$/;"	m	struct:__anon1
 model_train	utils.h	/^  char*   model_train; \/\/ train data filename$/;"	m	struct:__anon3
+myloadHMM	test.c	/^static void myloadHMM( HMM *hmm, const char *filename )$/;"	f	file:
+myloadHMM	train.c	/^static void myloadHMM( HMM *hmm, const char *filename )$/;"	f	file:
+myload_models	test.c	/^static int myload_models( const char *listname, HMM *hmm, const int max_num )$/;"	f	file:
 normalize_model	calc.h	/^static void normalize_model ( Data_wrapper* dw_ptr ){$/;"	f
 observ_num	hmm.h	/^   int observ_num;					\/\/number of observation$/;"	m	struct:__anon1
 observation	hmm.h	/^   double observation[MAX_OBSERV][MAX_STATE];	\/\/observation prob.$/;"	m	struct:__anon1
