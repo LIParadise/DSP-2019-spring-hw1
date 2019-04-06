@@ -384,14 +384,19 @@ static void calc_model(
 
 }
 
-static void normalize_model ( Data_wrapper* dw_ptr ){
-  // normalize the hmm.
+inline static void* anti_degen_pi  ( Data_wrapper* dw_ptr ){
+
   HMM*               hmm_ptr = dw_ptr -> hmm_ptr;
   Parameter_train*   pr_ptr  = dw_ptr -> train_ptr;
+  double sum = 0.0;
 
+  // prevent degeneration, HMM.initial
+  for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
+    if( hmm_ptr -> initial[i] <= 0.0000001 )
+      hmm_ptr -> initial[i] = 0.0000001;
+  }
 
   // normalize HMM.initial
-  double sum = 0.0;
   for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
     sum += hmm_ptr -> initial[i];
   }
@@ -402,6 +407,21 @@ static void normalize_model ( Data_wrapper* dw_ptr ){
         max_idx = i;
     }
     hmm_ptr -> initial[max_idx] -= sum-1;
+  }
+}
+
+inline static void* anti_degen_trans_A ( Data_wrapper* dw_ptr ){
+
+  HMM*               hmm_ptr = dw_ptr -> hmm_ptr;
+  Parameter_train*   pr_ptr  = dw_ptr -> train_ptr;
+  double sum = 0.0;
+
+  // prevent degeneration, HMM.transition
+  for( int row_idx = 0; row_idx < pr_ptr -> stt_cnt; ++ row_idx ){
+    for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++ col_idx ){
+      if( hmm_ptr -> transition[row_idx][col_idx] <= 0.0000001 )
+        hmm_ptr -> transition[row_idx][col_idx] = 0.0000001;
+    }
   }
 
   // normalize HMM.transition;
@@ -422,6 +442,119 @@ static void normalize_model ( Data_wrapper* dw_ptr ){
       hmm_ptr -> transition[row_idx][max_idx] -= sum-1;
     }
 
+  }
+}
+
+inline static void anti_degen_obsrv_B ( Data_wrapper* dw_ptr ){
+
+  HMM*               hmm_ptr = dw_ptr -> hmm_ptr;
+  Parameter_train*   pr_ptr  = dw_ptr -> train_ptr;
+
+  double sum = 0.0;
+
+  // prevent degeneration, HMM.observation
+  for( int row_idx = 0; row_idx < pr_ptr -> emt_cnt; ++ row_idx ){
+    for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++ col_idx ){
+      if( hmm_ptr -> observation[row_idx][col_idx] <= 0.0000001 )
+        hmm_ptr -> observation[row_idx][col_idx] = 0.0000001;
+    }
+  }
+
+  // normalize HMM.observation;
+  for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++ col_idx ){
+
+    sum = 0.0;
+    for( int row_idx = 0; row_idx < pr_ptr -> emt_cnt; ++row_idx){
+      sum += hmm_ptr -> observation[row_idx][col_idx];
+    }
+    if( fabs(sum-1.0) >= 0.000001 ){
+      int max_idx = 0;
+      for( int i = 1; i < pr_ptr -> emt_cnt; ++i ){
+        if( hmm_ptr -> observation[i][col_idx] >=
+            hmm_ptr -> observation[max_idx][col_idx] ){
+          max_idx = i;
+        }
+      }
+      hmm_ptr -> observation[max_idx][col_idx] -= sum-1;
+    }
+
+  }
+}
+
+inline static void anti_degen_model( 
+    pthread_t* thrd_1_ptr,
+    pthread_t* thrd_2_ptr,
+    pthread_t* thrd_3_ptr,
+    Data_wrapper* dw_ptr ){
+
+  pthread_create( thrd_1_ptr, NULL, anti_degen_pi     , dw_ptr );
+  pthread_create( thrd_2_ptr, NULL, anti_degen_trans_A, dw_ptr );
+  pthread_create( thrd_3_ptr, NULL, anti_degen_obsrv_B, dw_ptr );
+  pthread_join  ( *thrd_1_ptr, NULL );
+  pthread_join  ( *thrd_2_ptr, NULL );
+  pthread_join  ( *thrd_3_ptr, NULL );
+
+}
+
+static void normalize_model ( Data_wrapper* dw_ptr ){
+  // normalize the hmm.
+  HMM*               hmm_ptr = dw_ptr -> hmm_ptr;
+  Parameter_train*   pr_ptr  = dw_ptr -> train_ptr;
+
+  // prevent degeneration, HMM.initial
+  for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
+    if( hmm_ptr -> initial[i] <= 0.00001 )
+      hmm_ptr -> initial[i] = 0.00001;
+  }
+
+  // normalize HMM.initial
+  double sum = 0.0;
+  for( int i = 0; i < pr_ptr -> stt_cnt; ++i ){
+    sum += hmm_ptr -> initial[i];
+  }
+  if( fabs(sum-1.0) >= 0.000001 ){
+    int max_idx = 0;
+    for( int i = 1; i < pr_ptr -> stt_cnt; ++i ){
+      if( hmm_ptr -> initial[i] >= hmm_ptr -> initial[max_idx] )
+        max_idx = i;
+    }
+    hmm_ptr -> initial[max_idx] -= sum-1;
+  }
+
+  // prevent degeneration, HMM.transition
+  for( int row_idx = 0; row_idx < pr_ptr -> stt_cnt; ++ row_idx ){
+    for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++ col_idx ){
+      if( hmm_ptr -> transition[row_idx][col_idx] <= 0.00001 )
+        hmm_ptr -> transition[row_idx][col_idx] = 0.00001;
+    }
+  }
+
+  // normalize HMM.transition;
+  for( int row_idx = 0; row_idx < pr_ptr -> stt_cnt; ++ row_idx ){
+
+    sum = 0.0;
+    for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++col_idx){
+      sum += hmm_ptr -> transition[row_idx][col_idx];
+    }
+    if( fabs(sum-1.0) >= 0.000001 ){
+      int max_idx = 0;
+      for( int i = 1; i < pr_ptr -> stt_cnt; ++i ){
+        if( hmm_ptr -> transition[row_idx][i] >=
+            hmm_ptr -> transition[row_idx][max_idx] ){
+          max_idx = i;
+        }
+      }
+      hmm_ptr -> transition[row_idx][max_idx] -= sum-1;
+    }
+
+  }
+
+  // prevent degeneration, HMM.observation
+  for( int row_idx = 0; row_idx < pr_ptr -> emt_cnt; ++ row_idx ){
+    for( int col_idx = 0; col_idx < pr_ptr -> stt_cnt; ++ col_idx ){
+      if( hmm_ptr -> observation[row_idx][col_idx] <= 0.00001 )
+        hmm_ptr -> observation[row_idx][col_idx] = 0.00001;
+    }
   }
 
   // normalize HMM.observation;

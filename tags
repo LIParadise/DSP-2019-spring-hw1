@@ -31,6 +31,10 @@ Viterbi_wrapper	utils.h	/^} Viterbi_wrapper;$/;"	t	typeref:struct:__anon5
 accm_epsilon	calc.h	/^static void* accm_epsilon ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 accm_gamma	calc.h	/^static void* accm_gamma ( void* ptr \/* (Data_wrapper*) type *\/ ){$/;"	f
 alpha	utils.h	/^  double ** alpha      ;  \/\/ alpha [state count][observation index]$/;"	m	struct:Greek_letters
+anti_degen_model	calc.h	/^inline static void anti_degen_model( $/;"	f
+anti_degen_obsrv_B	calc.h	/^inline static void anti_degen_obsrv_B ( Data_wrapper* dw_ptr ){$/;"	f
+anti_degen_pi	calc.h	/^inline static void* anti_degen_pi  ( Data_wrapper* dw_ptr ){$/;"	f
+anti_degen_trans_A	calc.h	/^inline static void* anti_degen_trans_A ( Data_wrapper* dw_ptr ){$/;"	f
 arr	calc.h	/^  char   arr[sizeof(double)];$/;"	m	union:__anon8
 beta	utils.h	/^  double ** beta       ;  \/\/ beta  [state count][observation index]$/;"	m	struct:Greek_letters
 calc_A	calc.h	/^static void* calc_A  ( void* ptr \/* type (Data_wrapper*) ) *\/ ){$/;"	f
