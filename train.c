@@ -34,7 +34,7 @@ int main( int argc, char** argv )
       iteration < train.it_cnt;
       ++iteration ){
 
-    normalize_model( &dw );
+    anti_degen_model( &thrd_1, &thrd_2, &thrd_3, &dw );
 
     for( int i = 0; i < train.line_cnt; ++i ){
       dw.cur_line_idx = i;
