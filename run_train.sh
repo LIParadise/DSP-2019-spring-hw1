@@ -12,3 +12,4 @@ P5=$!
 wait $P1 $P2 $P3 $P4 $P5
 )
 ./test modellist.txt testing_data1.txt result1.txt
+./test modellist.txt testing_data2.txt result2.txt
